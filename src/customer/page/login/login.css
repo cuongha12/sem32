@@ -1,0 +1,39 @@
+.layoutLoginUser {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    min-height: 500px;
+    overflow: auto;
+    background-image: url(https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    align-items: center;
+}
+
+.mainLoginUser {
+    flex: none;
+    width: 320px;
+    padding: 36px;
+    margin: 0 auto;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.titleLoginUser {
+    font-size: 25px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.submitLoginLoginUser {
+    width: 100%;
+}
+.loginTitle{
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+}
