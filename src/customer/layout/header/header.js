@@ -1,8 +1,8 @@
 import { DownOutlined, FileSearchOutlined, HeartOutlined, HomeOutlined, MenuUnfoldOutlined, SearchOutlined, ShopOutlined, ShoppingCartOutlined, ShoppingOutlined, SyncOutlined, UserOutlined } from "@ant-design/icons";
-import { Badge, Button, Card, Col, Drawer, Row, Space } from "antd";
+import { Badge, Button, Card, Col, Drawer, Row, Space, Dropdown } from "antd";
 import clsx from "clsx";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useContext, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import Btn_x from "../../../component/btn/btn_x";
 import style from "./header.module.scss";
 import CartDrawer from "./_drawer/cart/cart";
@@ -11,7 +11,9 @@ import Compare_drawer from "./_drawer/compare/compare";
 import NavDrawer from "./_drawer/nav/nav";
 import UserDrawer from "./_drawer/user/user";
 import Wishlish_drawer from "./_drawer/wishlist/wishlist";
-
+import { useSelector } from "react-redux";
+import { logOutUser } from "../../../redux/apiRequest";
+import { AppContext } from "../../../Context/AppContext";
 
 
 function Header() {
@@ -32,9 +34,36 @@ function Header() {
     const onCloseCart = () => {
         setOpenCart(false);
     };
+    const { userCustomer, dispatch, navigate } = useContext(AppContext)
+    const logOut = useCallback(async () => {
+        await logOutUser(dispatch)
+        await navigate("/login")
+    }, [dispatch, navigate])
     const [tab_right, setTab_right] = useState(false)
     const [tab_left, setTab_left] = useState(false)
-    console.log(tab_left);
+    const items = [
+        {
+            key: '1',
+            label: (
+                <NavLink style={{
+                    textDecoration: 'none',
+                }} to={'/profile'}>
+                    Hồ sơ
+                </NavLink>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <NavLink style={{
+                    textDecoration: 'none',
+                }}
+                    onClick={logOut}
+                >
+                    Đăng xuất
+                </NavLink>
+            ),
+        },]
     return (
         <>
             <div className={clsx(style.header)}>
@@ -180,10 +209,25 @@ function Header() {
                                 <Badge style={{ backgroundColor: '#daa174' }} count="0">
                                     <div onClick={() => showDrawerCart('compare')} className={clsx(style.header_icon)}><SyncOutlined /></div>
                                 </Badge>
-                                <Badge className={clsx('d-sm-flex', 'd-none')} style={{ backgroundColor: '#daa174' }} count="0">
+                                {/* <Badge className={clsx('d-sm-flex', 'd-none')} style={{ backgroundColor: '#daa174' }} count="0">
                                     <div className={clsx(style.header_icon)}><UserOutlined /></div>
-                                </Badge>
-
+                                </Badge> */}
+                                {
+                                    !userCustomer ? (<Badge className={clsx('d-sm-flex', 'd-none')}
+                                        style={{ backgroundColor: '#daa174' }} count="0">
+                                        <div className={clsx(style.header_icon)}><UserOutlined /></div>
+                                    </Badge>) : (<Dropdown
+                                        menu={{
+                                            items,
+                                        }}
+                                        placement="bottom"
+                                    >
+                                        <Badge className={clsx('d-sm-flex', 'd-none')}
+                                            style={{ backgroundColor: '#daa174' }} count="0">
+                                            <div className={clsx(style.header_icon)}><UserOutlined /></div>
+                                        </Badge>
+                                    </Dropdown>)
+                                }
 
                             </Space>
                         </div>

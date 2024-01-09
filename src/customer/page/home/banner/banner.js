@@ -14,7 +14,6 @@ function Banner() {
     //        )
     // }
     const [ic, setIc] = useState(0)
-    console.log(ic);
     const banner = [
         "https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2022/02/black-gingham-belted-mini-shirt-dress-e1639323379980.jpeg",
         "https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-2.jpeg",

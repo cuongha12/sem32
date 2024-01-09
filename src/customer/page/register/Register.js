@@ -1,32 +1,33 @@
-import React from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Button, Form, Input, message } from "antd";
 import '../login/login.css'
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import { AppContext } from '../../../Context/AppContext';
 const Register = () => {
-    const [form] = Form.useForm();
-	let navigate = useNavigate()
-    const onFinish = async (values) => {
+	const [form] = Form.useForm();
+	const { navigate } = useContext(AppContext)
+	const onFinish = useCallback(async (values) => {
 		try {
-			await axios.post('http://www.demoartapi.somee.com/register',values).then(()=>{
+			await axios.post('/register', values).then(() => {
 				message.success('Đăng kí thành công')
-				navigate( '/login' )
+				navigate('/login')
 			})
-		}catch (e) {
+		} catch (e) {
 			console.log(e)
 			message.error('Đăng kí thất bại')
 		}
 		form.resetFields({});
-	};
-  return (
-    <div className="layoutLoginUser">
+	}, [navigate, form])
+	return (
+		<div className="layoutLoginUser">
 			<div className="mainLoginUser">
 				<h1 className={"titleLoginUser"}>
 					Đăng kí tài khoản
 				</h1>
-				<Form   name="register-form"  form={form}
+				<Form name="register-form" form={form}
 					autoComplete="off"
-						layout="vertical"
+					layout="vertical"
 					labelAlign="left"
 					onFinish={onFinish}
 
@@ -37,7 +38,7 @@ const Register = () => {
 						rules={[
 							{
 								required: true,
-								message:'Tên đăng nhập không để trống',
+								message: 'Tên đăng nhập không để trống',
 							},
 						]}
 					>
@@ -50,7 +51,7 @@ const Register = () => {
 						rules={[
 							{
 								required: true,
-								message:'Email không để trống'
+								message: 'Email không để trống'
 							},
 						]}
 					>
@@ -63,7 +64,7 @@ const Register = () => {
 						rules={[
 							{
 								required: true,
-								message:'Số điện thoại không để trống'
+								message: 'Số điện thoại không để trống'
 							},
 						]}
 					>
@@ -76,7 +77,7 @@ const Register = () => {
 						rules={[
 							{
 								required: true,
-								message:'Địa chỉ không để trống'
+								message: 'Địa chỉ không để trống'
 							},
 						]}
 					>
@@ -90,7 +91,7 @@ const Register = () => {
 						rules={[
 							{
 								required: true,
-								message:'Mật khẩu không để trống'
+								message: 'Mật khẩu không để trống'
 							},
 						]}
 					>
@@ -103,7 +104,7 @@ const Register = () => {
 						rules={[
 							{
 								required: true,
-								message:'Vui lòng không để trống'
+								message: 'Vui lòng không để trống'
 							},
 							({ getFieldValue }) => ({
 								validator(_, value) {
@@ -134,7 +135,7 @@ const Register = () => {
 				</p>
 			</div>
 		</div>
-  )
+	)
 }
 
 export default Register

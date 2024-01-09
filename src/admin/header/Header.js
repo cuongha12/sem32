@@ -9,9 +9,8 @@ import { Avatar, Dropdown, Layout, Menu, Space, theme } from 'antd';
 import React, { useContext, useEffect } from 'react';
 import './css.css'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
-
-
-
+import { AppContext } from '../../Context/AppContext';
+import { logOutAdmin } from '../../redux/apiRequest';
 const { Header, Content, Footer, Sider } = Layout;
 // , LaptopOutlined, NotificationOutlined,
 const items2 = [
@@ -102,6 +101,10 @@ const items2 = [
 
 
 const HeaderAdmin = () => {
+    const logOut = async () => {
+        await logOutAdmin(dispatch)
+        await navigate("/admin/login")
+    }
     const items = [
         {
             key: '1',
@@ -125,34 +128,29 @@ const HeaderAdmin = () => {
         },
     ];
 
+    const { user, dispatch, navigate } = useContext(AppContext)
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-    // const location = useLocation()
-    // const user = useSelector( ( e ) => e?.auth?.login?.currentUser )
-    // const dispatch = useDispatch()
-    // let axiosJWT = createAxios( user, dispatch )
-    // const { axiosJWT, dispatch } = useContext(AppContext)
+    const location = useLocation()
     let check = []
-    // items2.find( ( e ) => {
+    items2.find((e) => {
 
-    // 	if ( e?.path === location?.pathname) {
+        if (e?.path === location?.pathname) {
 
-    // 		return check.push( e?.key?.toString() )
-    // 	} else {
-    // 		if ( e?.children?.find( ( a ) => a.path === location.pathname ) ) {
-    // 			e?.children?.find( ( a ) => {
-    // 				if ( a.path === location.pathname ) {
-    // 					return check.push( a.key?.toString() )
-    // 				}
-    // 			} )
-    // 		}
-    // 	}
-    // } );
-    const navigate = useNavigate()
-    // const logOut = () => {
-    // 	logOutAdmin( user, axiosJWT, dispatch, navigate )
-    // }
+            return check.push(e?.key?.toString())
+        } else {
+            if (e?.children?.find((a) => a.path === location.pathname)) {
+                e?.children?.find((a) => {
+                    if (a.path === location.pathname) {
+                        return check.push(a.key?.toString())
+                    }
+                })
+            }
+        }
+    });
+   
     return (
         <Layout>
             <Header className="header">
@@ -168,21 +166,21 @@ const HeaderAdmin = () => {
                                 cursor: "pointer"
                             }} size="large" icon={<UserOutlined />} />
                         </Dropdown>
-                        {/* <span style={ {
-							color: '#ffff'
-						} }>{ user?.data.name }</span> */}
+                        <span style={{
+                            color: '#ffff'
+                        }}>{user?.userName}</span>
                     </Space>
                 </Space>
             </Header>
             <Content
                 style={{
-                    
+
                     height: '1700px'
                 }}
             >
                 <Layout
                     style={{
-                      
+
                         height: '1600px',
                         background: colorBgContainer,
                     }}

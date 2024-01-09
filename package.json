@@ -1,6 +1,7 @@
 {
   "name": "styler",
   "version": "0.1.0",
+  "proxy": "http://www.demoartapi.somee.com",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.8.0",

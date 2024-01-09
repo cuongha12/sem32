@@ -1,13 +1,14 @@
-import React from 'react';
-import { Button, Form, Input } from "antd";
+import React, { useContext } from 'react';
+import { Button, Form, Input, message } from "antd";
 import './login.css'
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { loginUser } from '../../../redux/apiRequest';
+import { AppContext } from '../../../Context/AppContext';
 const LoginCustomer = () => {
 	const [form] = Form.useForm();
-	let navigate = useNavigate()
-	// const dispatch = useDispatch()
+	const { dispatch, navigate } = useContext(AppContext)
 	const onFinish = async (values) => {
-		// loginUser(values, dispatch, navigate, Swal)
+		await loginUser(values, dispatch, message, navigate)
 	};
 	return (
 		<div className="layoutLoginUser">
@@ -15,23 +16,20 @@ const LoginCustomer = () => {
 				<h1 className={"titleLoginUser"}>
 					Đăng nhập tài khoản
 				</h1>
-				<Form name="basic"
+				<Form name="login-form"
 					form={form}
 					autoComplete="off"
-					layout="horizontal"
+					layout="vertical"
 					labelAlign="left"
 					onFinish={onFinish}
-					initialValues={{
-						remember: true,
-						email: '',
-						password: ''
-					}}
 				>
 					<Form.Item
-						name="email"
+						label="Tài khoản"
+						name="userName"
 						rules={[
 							{
 								required: true,
+								message: 'Tên đăng nhập không để trống',
 							},
 						]}
 					>
@@ -39,9 +37,14 @@ const LoginCustomer = () => {
 					</Form.Item>
 
 					<Form.Item
-						label=""
+						label="Mật khẩu"
 						name="password"
-						rules={[]}
+						rules={[
+							{
+								required: true,
+								message: 'Mật khẩu không để trống'
+							},
+						]}
 					>
 						<Input.Password placeholder="Mật khẩu" />
 					</Form.Item>
@@ -50,6 +53,7 @@ const LoginCustomer = () => {
 						<Button
 							type="primary"
 							htmlType="submit"
+							form='login-form'
 							className={"submitLogin"}
 						>Đăng nhập</Button>
 					</Form.Item>
