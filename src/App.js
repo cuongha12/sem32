@@ -15,7 +15,8 @@ const Cart = lazy(() => import('./customer/page/cart/cart.js'));
 const Login = lazy(() => import('./customer/page/login/LoginCustomer.js'));
 const Main = lazy(() => import("./customer/layout/main/Main.js"));
 const HeaderAdmin = lazy(() => import("./admin/header/Header.js"));
-const Category = lazy(() => import("./admin/category/Category.js"));
+const Register = lazy(() => import("./customer/page/register/Register.js"))
+
 function App() {
   return (
     // <AppProvider>
@@ -33,7 +34,6 @@ function App() {
           {/* <Route path='get' element={<UserMember />} />
             <Route path='change-password' element={<ChangPassword />} />
             <Route path='profile' element={<UserProfile />} /> */}
-          <Route path='category' element={<Category />} />
           {/* <Route path='item' element={<Item />} />
             <Route path='color' element={<Color />} />
             <Route path='size' element={<Size />} />
@@ -41,6 +41,7 @@ function App() {
             <Route path='*' element={<Notfound />} />
             <Route path='usercustomer' element={<UserCustomer />} /> */}
         </Route>
+        <Route path={'/register'} element={<Register/>}></Route>
         <Route path='login' element={<Login />} />
       </Routes>
     </Suspense>

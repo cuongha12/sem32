@@ -1,11 +1,22 @@
 import React from 'react'
-import { Button, Form, Input } from "antd";
-import './login.css'
-import { NavLink } from 'react-router-dom';
+import { Button, Form, Input, message } from "antd";
+import '../login/login.css'
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from "axios";
 const Register = () => {
     const [form] = Form.useForm();
+	let navigate = useNavigate()
     const onFinish = async (values) => {
-		// loginUser(values, dispatch, navigate, Swal)
+		try {
+			await axios.post('http://www.demoartapi.somee.com/register',values).then(()=>{
+				message.success('Đăng kí thành công')
+				navigate( '/login' )
+			})
+		}catch (e) {
+			console.log(e)
+			message.error('Đăng kí thất bại')
+		}
+		form.resetFields({});
 	};
   return (
     <div className="layoutLoginUser">
@@ -13,43 +24,106 @@ const Register = () => {
 				<h1 className={"titleLoginUser"}>
 					Đăng kí tài khoản
 				</h1>
-				<Form name="basic"
-					form={form}
+				<Form   name="register-form"  form={form}
 					autoComplete="off"
-					layout="horizontal"
+						layout="vertical"
 					labelAlign="left"
 					onFinish={onFinish}
-					initialValues={{
-						remember: true,
-						email: '',
-						password: ''
-					}}
+
 				>
 					<Form.Item
+						label="Tên đăng nhập"
+						name="userName"
+						rules={[
+							{
+								required: true,
+								message:'Tên đăng nhập không để trống',
+							},
+						]}
+					>
+						<Input placeholder="Tên đăng nhập" />
+					</Form.Item>
+
+					<Form.Item
+						label="Email"
 						name="email"
 						rules={[
 							{
 								required: true,
+								message:'Email không để trống'
 							},
 						]}
 					>
-						<Input placeholder="Tài khoản" />
+						<Input placeholder="Email" />
 					</Form.Item>
 
 					<Form.Item
-						label=""
+						label="Số điện thoại"
+						name="phoneNumber"
+						rules={[
+							{
+								required: true,
+								message:'Số điện thoại không để trống'
+							},
+						]}
+					>
+						<Input placeholder="Số điện thoại" />
+					</Form.Item>
+
+					<Form.Item
+						label="Địa chỉ"
+						name="address"
+						rules={[
+							{
+								required: true,
+								message:'Địa chỉ không để trống'
+							},
+						]}
+					>
+						<Input placeholder="Địa chỉ" />
+					</Form.Item>
+
+
+					<Form.Item
+						label="Mật khẩu"
 						name="password"
-						rules={[]}
+						rules={[
+							{
+								required: true,
+								message:'Mật khẩu không để trống'
+							},
+						]}
 					>
 						<Input.Password placeholder="Mật khẩu" />
 					</Form.Item>
-
+					<Form.Item
+						label="Xác nhận mật khẩu"
+						name="password2"
+						dependencies={['password']}
+						rules={[
+							{
+								required: true,
+								message:'Vui lòng không để trống'
+							},
+							({ getFieldValue }) => ({
+								validator(_, value) {
+									if (!value || getFieldValue('password') === value) {
+										return Promise.resolve();
+									}
+									return Promise.reject(new Error('Mật khẩu bạn nhập không khớp!'));
+								},
+							}),
+						]}
+					>
+						<Input.Password placeholder="Xác nhận mật khẩu" />
+					</Form.Item>
 					<Form.Item>
 						<Button
 							type="primary"
 							htmlType="submit"
 							className={"submitLogin"}
-						>Đăng nhập</Button>
+							form="register-form"
+						>Đăng kí</Button>
 					</Form.Item>
 
 				</Form>

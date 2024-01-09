@@ -386,9 +386,9 @@ function Home() {
                 </div>
             </div>
             <div className={style.modal_product}>
-                <Button type="primary" onClick={showModal}>
-                    Open Modal
-                </Button>
+                {/*<Button type="primary" onClick={showModal}>*/}
+                {/*    Open Modal*/}
+                {/*</Button>*/}
                 <Modal
                     width={window.innerWidth >= 920 ? 920 : '100%'}
                     // destroyOnClose={false}
