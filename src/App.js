@@ -17,14 +17,15 @@ const Login = lazy(() => import('./customer/page/login/LoginCustomer.js'));
 const Main = lazy(() => import("./customer/layout/main/Main.js"));
 const HeaderAdmin = lazy(() => import("./admin/header/Header.js"));
 const Register = lazy(() => import("./customer/page/register/Register.js"))
-const LoginAdmin = lazy(()=>import("./admin/page/login/LoginAdmin.js"));
+const LoginAdmin = lazy(() => import("./admin/page/login/LoginAdmin.js"));
+const Category = lazy(() => import("./admin/page/category/Category.js"));
 
 
 function App() {
   const location = useLocation();
-	useLayoutEffect(() => {
-		document.documentElement.scrollTo(0, 0);
-	}, [location.pathname]);
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
   return (
     <AppProvider>
       <Suspense fallback={<Spin spinning={true} tip="Loading" size="large">
@@ -40,6 +41,7 @@ function App() {
             {/* <Route path="contact" element={<Contact />} /> */}
           </Route>
           <Route path='/admin/' element={<HeaderAdmin />}>
+            <Route path='category' element={<Category />} />
             {/* <Route path='get' element={<UserMember />} />
             <Route path='change-password' element={<ChangPassword />} />
             <Route path='profile' element={<UserProfile />} /> */}

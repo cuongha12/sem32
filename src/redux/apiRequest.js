@@ -53,8 +53,8 @@ export const loginAdmin = async (value, dispatch, message, navigate) => {
 }
 
 
-export const logOutAdmin = async (dispatch) => {
+export const logOutAdmin = async (dispatch,navigate) => {
     dispatch(logoutStart())
     dispatch(logoutSuccess(''))
-    return
+    navigate("/admin/login")
 }

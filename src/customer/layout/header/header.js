@@ -43,6 +43,15 @@ function Header() {
     const [tab_left, setTab_left] = useState(false)
     const items = [
         {
+            key: '5',
+            label: (
+                <span >
+                    {userCustomer?.userName}
+                </span>
+            ),
+            status: true
+        },
+        {
             key: '1',
             label: (
                 <NavLink style={{
@@ -51,6 +60,7 @@ function Header() {
                     Hồ sơ
                 </NavLink>
             ),
+            status: true,
         },
         {
             key: '2',
@@ -63,7 +73,33 @@ function Header() {
                     Đăng xuất
                 </NavLink>
             ),
-        },]
+            status: true
+        },
+        {
+            key: '3',
+            label: (
+                <NavLink style={{
+                    textDecoration: 'none',
+                }} to={'/register'}>
+                    Đăng kí
+                </NavLink>
+            ),
+            status: false,
+        },
+        {
+            key: '4',
+            label: (
+                <NavLink to={'/login'} style={{
+                    textDecoration: 'none',
+                }}
+
+                >
+                    Đăng nhập
+                </NavLink>
+            ),
+            status: false
+        },
+    ].filter((e) => userCustomer ? e.status : !e.status)
     return (
         <>
             <div className={clsx(style.header)}>
@@ -212,22 +248,19 @@ function Header() {
                                 {/* <Badge className={clsx('d-sm-flex', 'd-none')} style={{ backgroundColor: '#daa174' }} count="0">
                                     <div className={clsx(style.header_icon)}><UserOutlined /></div>
                                 </Badge> */}
-                                {
-                                    !userCustomer ? (<Badge className={clsx('d-sm-flex', 'd-none')}
+
+                                <Dropdown
+                                    menu={{
+                                        items,
+                                    }}
+                                    placement="bottom"
+                                >
+                                    <Badge className={clsx('d-sm-flex', 'd-none')}
                                         style={{ backgroundColor: '#daa174' }} count="0">
                                         <div className={clsx(style.header_icon)}><UserOutlined /></div>
-                                    </Badge>) : (<Dropdown
-                                        menu={{
-                                            items,
-                                        }}
-                                        placement="bottom"
-                                    >
-                                        <Badge className={clsx('d-sm-flex', 'd-none')}
-                                            style={{ backgroundColor: '#daa174' }} count="0">
-                                            <div className={clsx(style.header_icon)}><UserOutlined /></div>
-                                        </Badge>
-                                    </Dropdown>)
-                                }
+                                    </Badge>
+                                </Dropdown>
+
 
                             </Space>
                         </div>

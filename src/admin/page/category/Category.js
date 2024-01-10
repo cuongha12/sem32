@@ -1,183 +1,97 @@
-import { Badge, Button, Space, Switch, Table, message } from 'antd'
-import React, { useContext, useEffect, useState } from 'react'
-// import { AppContext } from '../../../Context/AppContext';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-// import dayjs from 'dayjs';
-// import 'dayjs/locale/vi'
-import CreateCategory from './CreateCatory';
-
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Card, Space, Button, Badge, Table, message } from 'antd';
+import { EyeFilled, EditFilled, DeleteFilled, PlusCircleFilled, LockFilled } from '@ant-design/icons';
+import { AppContext } from '../../../Context/AppContext';
+import CategoryForm from './CategoryForm';
+import axios from 'axios'
 const Category = () => {
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-    // const { category, axiosJWT, user, getCategory } = useContext(AppContext)
+    const { category, loadCategory } = useContext(AppContext)
     const [open, setOpen] = useState(false);
-    const [title, setTitle] = useState('')
-    const [record, setRecord] = useState({});
-    // const start = async () => {
-    //     try {
-    //         const res = await axiosJWT.delete(`/category/delete`, { ids: selectedRowKeys }, {
-    //             headers: {
-    //                 Authorization: `Bearer ${user?.accessToken}`
-    //             }
-    //         })
-    //         if (res.data.status === 201) {
-    //             getCategory()
-    //             message.success(`${res.data.mess}`)
-    //         } else if (res.data.status === 203) {
-    //             message.error(`${res.data.mess}`)
-    //         }
-    //         else {
-    //             message.error(`${res.data.mess}`)
-    //         }
-    //     } catch (error) {
-    //         message.error(`Lỗi server`)
-    //     }
-    // };
-    const onSelectChange = (newSelectedRowKeys) => {
-        setSelectedRowKeys(newSelectedRowKeys);
+    const [mode, setMode] = useState('')
+    const [model, setModel] = useState(undefined)
+    const showDrawer = () => {
+        setOpen(true);
+        setMode('add')
     };
-    const rowSelection = {
-        selectedRowKeys,
-        onChange: onSelectChange,
+    const onClose = () => {
+        setOpen(false);
     };
-    const hasSelected = selectedRowKeys.length > 0;
-    const handleOpen = (type, data) => {
-        if (type === 'add') {
-            setOpen(true)
-            setTitle('Thêm danh mục')
-        }
-        else {
-            setOpen(true)
-            setTitle('Sửa danh mục')
-            setRecord(data)
+    const getCategory = async (id) => {
+        try {
+            await axios.get('/api/Categories/' + id).then((e) => {
+                setModel(e.data)
+            })
+        } catch (error) {
+            message.error("Lỗi hệ thống")
         }
     }
+    const handlerEdit = async (id) => {
+        setMode('edit')
+        await getCategory(id)
+        setOpen(true);
+    };
+    const deleteCategory = useCallback(async (id) => {
+        try {
+            await axios.delete('/api/Categories/' + id).then(() => {
+                message.success("Xoá thành công")
+                loadCategory()
+            })
+        } catch (error) {
+            message.error("Lỗi hệ thống")
+        }
+    }, [loadCategory])
     const columns = [
         {
             title: 'Tên',
-            dataIndex: 'name',
-            key: 'name'
+            dataIndex: 'categoryName',
+            key: 'categoryName'
         },
         {
             title: 'Trạng thái',
             key: 'status',
             render: (e) => (
-                <Badge status={e.status === false ? 'success' : 'error'} text={e.status === false ? 'Hoạt động' : 'Khoá'} />
+                <Badge status={e.status ? 'success' : 'error'} text={e.status ? 'Hoạt động' : 'Khoá'} />
             )
         },
-        // {
-        //     title: 'Khởi tạo',
-        //     render: (e) => (
-        //         <span>{dayjs(e.createdAt).locale('vi').format('dddd, D/M/YYYY h:mm A')}</span>
-        //     ),
-        //     key: 'createdAt'
-        // },
-        // {
-        //     title: 'Cập nhật',
-        //     render: (e) => (
-        //         <span>{dayjs(e.updatedAt).locale('vi').format('dddd, D/M/YYYY h:mm A')}</span>
-        //     ),
-        //     key: 'updatedAt'
-        // },
-        // {
-        //     title: 'Chặn',
-        //     key: 'blocked',
-        //     render: (e) => (
-        //         <Switch defaultChecked={e.status} onChange={async (vale) => {
-        //             try {
-        //                 const res = await axiosJWT.put(`/category/update/${e?.id}`, {
-        //                     status: vale
-        //                 }, {
-        //                     headers: {
-        //                         Authorization: `Bearer ${user?.accessToken}`
-        //                     }
-        //                 })
-        //                 if (res.data.status === 201) {
-        //                     message.success(`${res.data.mess}`)
-        //                     getCategory()
-        //                     setOpen(false)
-        //                 } else {
-        //                     message.error(`${res.data.mess}`)
-        //                 }
-        //             } catch (error) {
-        //                 message.error(`Lỗi server`)
-        //             }
-        //         }} />
-        //     )
-        // },
         {
-            title: 'Actions',
+            title: 'Hoạt động',
             key: 'actions',
             render: (e) => (
                 <Space>
-                    <Button
-                        // onClick={() => handleOpen('edit', e)} 
-                        icon={<EditOutlined />} size={'middle'} type="primary">
+                    <Button icon={<EditFilled />} onClick={() => handlerEdit(e.categoryID)} size={'middle'} type="primary">
                     </Button>
-                    <Button icon={<DeleteOutlined />} danger size={'middle'} type="primary"
-                    // onClick={async () => {
-                    //     try {
-                    //         const res = await axiosJWT.delete(`/category/delete/${e?.id}`, {
-                    //             headers: {
-                    //                 Authorization: `Bearer ${user?.accessToken}`
-                    //             }
-                    //         })
-                    //         if (res.data.status === 201) {
-                    //             message.success(`${res.data.mess}`)
-                    //             getCategory()
-                    //             setOpen(false)
-                    //         } else if (res.data.status === 203) {
-                    //             message.error(`${res.data.mess}`)
-                    //         }
-                    //         else {
-                    //             message.error(`${res.data.mess}`)
-                    //         }
-                    //     } catch (error) {
-                    //         message.error(`Lỗi server`)
-                    //     }
-                    // }}
-                    >
+                    <Button icon={<DeleteFilled />} onClick={() => deleteCategory(e.categoryID)} danger size={'middle'} type="primary" >
                     </Button>
                 </Space>
             )
         },
     ];
     useEffect(() => {
-        // getCategory()
-    }, [])
+        loadCategory()
+    }, [loadCategory])
+    console.log(category);
     return (
-        <div>
-            <div>
-                <div
-                    style={{
-                        marginBottom: 16,
-                    }}
-                >
-                    <Space>
-                        {/* <Button type="primary" onClick={start} >
-                            Reload
-                        </Button> */}
-                        <Button type="primary" onClick={() => handleOpen('add')}>
-                            Thêm
+        <Card style={{ padding: 0 }} bordered
+            title="Dữ liệu danh mục" extra={[
+                <Space key={`category`}>
+                    <Space.Compact>
+                        <Button
+                            title={'Thêm mới'}
+                            type="primary"
+                            icon={<PlusCircleFilled />}
+                            key="add"
+                            onClick={showDrawer}
+                        >
+                            Thêm mới
                         </Button>
-                    </Space>
-                    <span
-                        style={{
-                            marginLeft: 8,
-                        }}
-                    >
-                        {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-                    </span>
-                </div>
-                <Table scroll={{
-                    x: 1300,
-                }} rowSelection={rowSelection} rowKey={'id'} columns={columns}
-                //  dataSource={category} 
-                />
-                {/* {
-                    open && <CreateCategory open={open} setOpen={setOpen} record={record} title={title} />
-                } */}
-            </div>
-        </div>
+                    </Space.Compact>
+                </Space>
+            ]}>
+            <Table rowKey="categoryID" dataSource={category} pagination columns={columns} />
+            {
+                open && <CategoryForm open={open} mode={mode} model={model} onClose={onClose} />
+            }
+        </Card>
     )
 }
 

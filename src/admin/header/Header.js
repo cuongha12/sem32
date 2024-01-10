@@ -5,8 +5,8 @@ import {
     ShoppingOutlined,
     UsergroupAddOutlined
 } from '@ant-design/icons';
-import { Avatar, Dropdown, Layout, Menu, Space, theme } from 'antd';
-import React, { useContext, useEffect } from 'react';
+import { Avatar, Dropdown, Layout, Menu, Space, theme, Spin } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
 import './css.css'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../Context/AppContext';
@@ -42,28 +42,7 @@ const items2 = [
         id: 5,
         name: 'Danh mục',
         icon: LaptopOutlined,
-        children: [
-            {
-                id: 6,
-                name: 'Danh mục',
-                path: '/admin/category'
-            },
-            {
-                id: 7,
-                name: 'Đồ',
-                path: '/admin/item'
-            },
-            {
-                id: 8,
-                name: 'Màu',
-                path: '/admin/color'
-            },
-            {
-                id: 9,
-                name: 'Size',
-                path: '/admin/size'
-            }
-        ]
+        path: '/admin/category'
     },
     {
         id: 10,
@@ -101,9 +80,9 @@ const items2 = [
 
 
 const HeaderAdmin = () => {
+    const [loading, setLoading] = useState(true)
     const logOut = async () => {
-        await logOutAdmin(dispatch)
-        await navigate("/admin/login")
+        await logOutAdmin(dispatch, navigate)
     }
     const items = [
         {
@@ -119,11 +98,11 @@ const HeaderAdmin = () => {
         {
             key: '2',
             label: (
-                <a style={{
+                <span style={{
                     textDecoration: 'none'
-                }}>
+                }} onClick={logOut}>
                     Đăng xuất
-                </a>
+                </span>
             ),
         },
     ];
@@ -150,80 +129,94 @@ const HeaderAdmin = () => {
             }
         }
     });
-   
-    return (
-        <Layout>
-            <Header className="header">
-                <Space direction="vertical">
-                    <Space wrap>
-                        <Dropdown
-                            menu={{
-                                items,
-                            }}
-                            placement="bottom"
-                        >
-                            <Avatar style={{
-                                cursor: "pointer"
-                            }} size="large" icon={<UserOutlined />} />
-                        </Dropdown>
-                        <span style={{
-                            color: '#ffff'
-                        }}>{user?.userName}</span>
-                    </Space>
-                </Space>
-            </Header>
-            <Content
-                style={{
 
-                    height: '1700px'
-                }}
-            >
-                <Layout
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/admin/login')
+        }
+        return () => {
+            setLoading(false);
+        }
+    }, [user, navigate])
+
+    return (
+        <Spin spinning={loading}>
+            <Layout>
+                <Header className="header">
+                    <Space direction="vertical">
+                        <Space wrap>
+                            <Dropdown
+                                menu={{
+                                    items,
+                                }}
+                                placement="bottom"
+                            >
+                                <Avatar style={{
+                                    cursor: "pointer"
+                                }} size="large" icon={<UserOutlined />} />
+                            </Dropdown>
+                            <span style={{
+                                color: '#ffff'
+                            }}>{user?.userName}</span>
+                        </Space>
+                    </Space>
+                </Header>
+                <Content
                     style={{
 
-                        height: '1600px',
-                        background: colorBgContainer,
+                        height: '1700px'
                     }}
                 >
-                    <Sider
+                    <Layout
                         style={{
+
+                            height: '1600px',
                             background: colorBgContainer,
                         }}
-                        width={200}
                     >
-                        <Menu
-                            mode="inline"
-                            theme="dark"
-                            defaultSelectedKeys={check}
-                            defaultOpenKeys={check}
+                        <Sider
                             style={{
-                                height: '100%',
-
+                                background: colorBgContainer,
                             }}
-                            items={items2}
-                        />
-                    </Sider>
+                            width={200}
+                        >
+                            <Menu
+                                mode="inline"
+                                theme="dark"
+                                defaultSelectedKeys={check}
+                                defaultOpenKeys={check}
+                                style={{
+                                    height: '100%',
 
-                    <Content
-                        style={{
-                            padding: 24,
-                            margin: 0,
-                            background: colorBgContainer,
-                            height: 1000
-                        }}
-                    >
-                        <Outlet />
-                    </Content>
-                </Layout>
-            </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                }}
-            >
-                Ant Design ©2023 Created by Ant UED
-            </Footer>
-        </Layout>
+                                }}
+                                items={items2}
+                            />
+                        </Sider>
+
+                        <Content
+                            style={{
+                                padding: 24,
+                                margin: 0,
+                                background: colorBgContainer,
+                                height: 1000
+                            }}
+                        >
+                            <Outlet />
+                        </Content>
+                    </Layout>
+                </Content>
+                <Footer
+                    style={{
+                        textAlign: 'center',
+                    }}
+                >
+                    Ant Design ©2023 Created by Ant UED
+                </Footer>
+            </Layout>
+        </Spin>
+
+
     );
 }
 
