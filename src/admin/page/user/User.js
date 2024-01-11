@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Badge, Button, Card, Space, Table } from "antd";
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Card, Space, Button, Badge, Table, message } from 'antd';
 import { DeleteFilled, EditFilled, PlusCircleFilled } from "@ant-design/icons";
 import CategoryForm from "../category/CategoryForm";
 import { AppContext } from "../../../Context/AppContext";
+import UserForm from './UserForm';
+import axios from 'axios';
 
 const User = () => {
-    const { account,loadAccount } = useContext(AppContext)
+    const { account, loadAccount } = useContext(AppContext)
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState('')
     const [model, setModel] = useState(undefined)
@@ -16,6 +18,30 @@ const User = () => {
     const onClose = () => {
         setOpen(false);
     };
+    const getAccount = async (id) => {
+        try {
+            await axios.get('/api/Account/' + id).then((e) => {
+                setModel(e.data)
+            })
+        } catch (error) {
+            message.error("Lỗi hệ thống")
+        }
+    }
+    const handlerEdit = async (id) => {
+        setMode('edit')
+        await getAccount(id)
+        setOpen(true);
+    };
+    const deleteAccount = useCallback(async (id) => {
+        try {
+            await axios.delete('/api/AccountControllers/' + id).then(() => {
+                message.success("Xoá thành công")
+                loadAccount()
+            })
+        } catch (error) {
+            message.error("Xoá thất bại")
+        }
+    }, [loadAccount])
     const columns = [
         {
             title: 'Tên',
@@ -55,41 +81,41 @@ const User = () => {
             render: (e) => (
                 <Space>
                     <Button icon={<EditFilled />}
-                            // onClick={() => handlerEdit(e.categoryID)}
-                            size={'middle'} type="primary">
+                        onClick={() => handlerEdit(e.accountID)}
+                        size={'middle'} type="primary">
                     </Button>
                     <Button icon={<DeleteFilled />}
-                            // onClick={() => deleteCategory(e.categoryID)}
-                            danger size={'middle'} type="primary" >
+                        onClick={() => deleteAccount(e.accountID)}
+                        danger size={'middle'} type="primary" >
                     </Button>
                 </Space>
             )
         },
     ];
-    useEffect(()=>{
+    useEffect(() => {
         loadAccount()
-    },[])
+    }, [loadAccount])
 
     return (
         <Card style={{ padding: 0 }} bordered
-              title="Danh sách tài khoản" extra={[
-            <Space key={`account`}>
-                <Space.Compact>
-                    <Button
-                        title={'Thêm mới'}
-                        type="primary"
-                        icon={<PlusCircleFilled />}
-                        key="add"
-                        onClick={showDrawer}
-                    >
-                        Thêm mới
-                    </Button>
-                </Space.Compact>
-            </Space>
-        ]}>
-            <Table rowKey="categoryID" dataSource={account} pagination columns={columns} />
+            title="Danh sách tài khoản" extra={[
+                <Space key={`account`}>
+                    <Space.Compact>
+                        <Button
+                            title={'Thêm mới'}
+                            type="primary"
+                            icon={<PlusCircleFilled />}
+                            key="add"
+                            onClick={showDrawer}
+                        >
+                            Thêm mới
+                        </Button>
+                    </Space.Compact>
+                </Space>
+            ]}>
+            <Table rowKey="accountID" dataSource={account} pagination columns={columns} />
             {
-                open && <CategoryForm open={open} mode={mode} model={model} onClose={onClose} />
+                open && <UserForm open={open} mode={mode} model={model} onClose={onClose} />
             }
         </Card>
     );

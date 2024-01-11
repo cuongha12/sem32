@@ -58,7 +58,7 @@ const CategoryForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input placeholder="Tên danh mục" />
+                    <Input  allowClear placeholder="Tên danh mục" />
                 </Form.Item>
                 <Form.Item
                     style={{ width: '20%' }}
@@ -71,7 +71,7 @@ const CategoryForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input placeholder="Mô tả" />
+                    <Input  allowClear placeholder="Mô tả" />
                 </Form.Item>
                 <Form.Item valuePropName="checked" name="status" label={"Trạng thái"}>
                     <Switch />
