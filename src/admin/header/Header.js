@@ -18,7 +18,7 @@ const items2 = [
         id: 1,
         name: 'Thành viên',
         icon: UsergroupAddOutlined,
-        path: '/admin/get'
+        path: '/admin/account'
     },
     {
         id: 2,
