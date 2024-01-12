@@ -20,6 +20,7 @@ const Register = lazy(() => import("./customer/page/register/Register.js"))
 const LoginAdmin = lazy(() => import("./admin/page/login/LoginAdmin.js"));
 const Category = lazy(() => import("./admin/page/category/Category.js"));
 const Account = lazy(() => import("./admin/page/user/User"))
+const Product = lazy(() => import("./admin/page/product/Product.js"));
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
           <Route path='/admin/' element={<HeaderAdmin />}>
             <Route path='category' element={<Category />} />
             <Route path='account' element={<Account />} />
+            <Route path='product' element={<Product />} />
             {/* <Route path='get' element={<UserMember />} />
             <Route path='change-password' element={<ChangPassword />} />
             <Route path='profile' element={<UserProfile />} /> */}

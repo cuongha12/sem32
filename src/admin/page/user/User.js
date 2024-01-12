@@ -20,7 +20,7 @@ const User = () => {
     };
     const getAccount = async (id) => {
         try {
-            await axios.get('/api/Account/' + id).then((e) => {
+            await axios.get('/accounts/' + id).then((e) => {
                 setModel(e.data)
             })
         } catch (error) {

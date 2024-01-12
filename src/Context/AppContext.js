@@ -11,7 +11,8 @@ export const AppProvider = ({ children }) => {
     const dispatch = useDispatch()
     let navigate = useNavigate()
     const [category, setCategory] = useState([])
-    const [account,setAccount] = useState([])
+    const [account, setAccount] = useState([])
+    const [product, setProduct] = useState([])
     const loadCategory = useCallback(async () => {
         try {
             await axios.get('/api/Categories').then((e) => {
@@ -24,16 +25,35 @@ export const AppProvider = ({ children }) => {
     const loadAccount = useCallback(async () => {
         try {
             await axios.get('/accounts').then((e) => {
-                setAccount(e.data.filter((a)=>a.accountID !== user.accountID))
+                setAccount(e.data.filter((a) => a.accountID !== user.accountID))
             })
         } catch (error) {
             message.error("Lỗi hệ thống")
         }
-    },[user.accountID])
+    }, [user.accountID])
+
+    const loadProduct = useCallback(async () => {
+        try {
+            await axios.get('/api/Products').then((e) => {
+                setProduct(e.data)
+            })
+        } catch (error) {
+            message.error("Lỗi hệ thống")
+        }
+    }, [])
     return (
         <AppContext.Provider
             value={{
-                userCustomer, dispatch, navigate, user, loadCategory, category,loadAccount,account
+                userCustomer,
+                dispatch,
+                navigate,
+                user,
+                loadCategory,
+                category,
+                loadAccount,
+                account,
+                loadProduct,
+                product
             }}
         >
 

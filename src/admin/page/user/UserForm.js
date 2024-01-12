@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Button, Space, Drawer, Form, Input, Switch, message, Select } from 'antd';
 import axios from 'axios';
 import { AppContext } from '../../../Context/AppContext';
@@ -18,7 +18,7 @@ const UserForm = ({ open, onClose, mode, model }) => {
                     Close()
                 })
             } else {
-                await axios.put("/api/Categories/" + model.categoryID, value).then(() => {
+                await axios.put("/api/AccountControllers/" + model.accountID, value).then(() => {
                     loadAccount()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()
@@ -32,6 +32,11 @@ const UserForm = ({ open, onClose, mode, model }) => {
             form.resetFields();
         }
     }, [Close, loadAccount, form, mode, model])
+    useEffect(() => {
+        if (model) {
+            form.setFieldsValue(model)
+        }
+    }, [model, form])
     return (
         <Drawer title="Cập nhật dữ liệu danh mục" width={'100%'} placement="right" onClose={Close} open={open}>
             <Form name="account-form"
