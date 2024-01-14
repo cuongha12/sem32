@@ -457,3 +457,24 @@ p {
         opacity: 1;
     }
 }
+
+.input_number {
+    .input {
+        width: 50px;
+        outline: none;
+        border: none;
+        text-align: center;
+        box-shadow: unset;
+    }
+
+    span {
+        font-size: large;
+        cursor: pointer;
+    }
+
+    .input::-webkit-outer-spin-button,
+    .input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}

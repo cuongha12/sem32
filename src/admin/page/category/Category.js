@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Card, Space, Button, Badge, Table, message } from 'antd';
+import { Card, Space, Button, Badge, Table, message ,Spin } from 'antd';
 import { EyeFilled, EditFilled, DeleteFilled, PlusCircleFilled, LockFilled } from '@ant-design/icons';
 import { AppContext } from '../../../Context/AppContext';
 import CategoryForm from './CategoryForm';
@@ -9,6 +9,7 @@ const Category = () => {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState('')
     const [model, setModel] = useState(undefined)
+    const [loading,setLoading] = useState(true)
     const showDrawer = () => {
         setOpen(true);
         setMode('add')
@@ -68,10 +69,13 @@ const Category = () => {
     ];
     useEffect(() => {
         loadCategory()
+        return () =>{
+            setLoading(false)
+        }
     }, [loadCategory])
-    console.log(category);
     return (
-        <Card style={{ padding: 0 }} bordered
+        <Spin spinning={loading}>
+            <Card style={{ padding: 0 }} bordered
             title="Dữ liệu danh mục" extra={[
                 <Space key={`category`}>
                     <Space.Compact>
@@ -92,6 +96,7 @@ const Category = () => {
                 open && <CategoryForm open={open} mode={mode} model={model} onClose={onClose} />
             }
         </Card>
+        </Spin>
     )
 }
 

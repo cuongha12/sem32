@@ -1,17 +1,25 @@
 import { LeftOutlined } from "@ant-design/icons";
 import { AppstoreOutlined, CalendarOutlined, FacebookFilled, FieldTimeOutlined, MinusOutlined, QuestionCircleOutlined, RightOutlined, SmileOutlined } from "@ant-design/icons/lib/icons";
-import { Breadcrumb, Button, Carousel, Col, Collapse, Image, Progress, Rate, Row, Select, Space, Tooltip, Typography } from "antd";
+import { Breadcrumb, Button, Input, Carousel, Col, Collapse, Image, message, Progress, Rate, Row, Select, Space, Tooltip, Typography } from "antd";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import C_product from "../../../component/carousel_product/c_product";
 import RateInput from "../../../component/rate/rate";
 import style from './detail_product.module.scss';
 import './custome.scss'
-import { useRef } from "react";
+import { useParams } from "react-router-dom";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import axios from "axios";
+import { AppContext } from "../../../Context/AppContext";
+import { addCart } from "../../../redux/apiRequest";
+
 function DetailProduct() {
+    const { id } = useParams()
+    const [count, setCount] = useState(1)
     const { Text, Link } = Typography;
     const { Panel } = Collapse;
-
+    const [model, setModel] = useState(undefined)
+    const { navigate, userCustomer, dispatch,token } = useContext(AppContext)
     const social = [
         {
             name: 'facebook-f',
@@ -62,13 +70,51 @@ function DetailProduct() {
             let x = `${((e.pageX + 1 - offset.offsetLeft) / img_df[i].clientWidth) * 100}%`;
             let y = `${((e.pageY + 1 - offset.offsetTop) / img_df[i].clientHeight) * 100}%`;
             img_zoom[i].style.backgroundPosition = `${x} ${y}`
-            console.log(x, y);
         }
 
         // console.log(e);
         // console.log(`${((e.pageX + 1 - offset.offsetLeft) / img_df.clientWidth) * 100}%`, `${((e.pageY + 1 - offset.offsetTop) / img_df.clientHeight) * 100}%`,);
     }
+    const updateCount = useCallback((type) => {
+        if (type === '+') {
+            setCount(count + 1)
+        } else {
+            if (count === 1) {
+                return
+            }
+            setCount(count - 1)
+        }
+    }, [count])
 
+    const addToCart = () => {
+        if (!userCustomer) {
+            navigate('/login')
+        } else {
+            const value = {
+                productId: model?.productID,
+                quantity: count
+            }
+            addCart(userCustomer, value, dispatch,message,token)
+        }
+    }
+    useEffect(() => {
+        if (id) {
+            const getProduct = async () => {
+                try {
+                    await axios.get('/api/Products/' + id).then((e) => {
+                        setModel(e.data)
+                    })
+                } catch (error) {
+                    message.error("Lỗi hệ thống")
+                }
+            }
+            getProduct()
+
+        } else {
+            navigate('/')
+        }
+
+    }, [id])
 
     // End Zoom image
     return (
@@ -117,76 +163,51 @@ function DetailProduct() {
                                 <Carousel arrows={true} dots={true}>
                                     <div>
                                         <div onMouseMove={onZoom} id={'img_df'} className={style.image_main}>
-                                            <img className="card-img" src="https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg" />
-                                            <div id="img_zoom" className={clsx(style.image_zoom)} style={{ backgroundImage: "url(https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg)" }}></div>
+                                            <img className="card-img" src={`/api/ImageControllers/${model?.image}`} />
+                                            <div id="img_zoom" className={clsx(style.image_zoom)} style={{ backgroundImage: `url(/api/ImageControllers/${model?.image})` }}></div>
                                             <Image
                                                 width={100}
                                                 preview={true}
                                                 id='preview'
                                                 style={{ opacity: 0, position: "absolute", zIndex: '-100', display: "none" }}
-                                                src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+                                                src={`/api/ImageControllers/${model?.image}`}
                                             />
 
                                         </div>
                                     </div>
-                                    <div>
-                                        <div onMouseMove={onZoom} id={'img_df'} className={style.image_main}>
-                                            <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-125.jpeg" />
-                                            <div id="img_zoom" className={clsx(style.image_zoom)} style={{ backgroundImage: "url(https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-125.jpeg)" }}></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div onMouseMove={onZoom} id={'img_df'} className={style.image_main}>
-                                            <img className="card-img" src="https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg" />
-                                            <div id="img_zoom" className={clsx(style.image_zoom)} style={{ backgroundImage: "url(https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg)" }}></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div onMouseMove={onZoom} id={'img_df'} className={style.image_main}>
-                                            <img className="card-img" src="https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg" />
-                                            <div id="img_zoom" className={clsx(style.image_zoom)} style={{ backgroundImage: "url(https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg)" }}></div>
-                                        </div>
-                                    </div>
 
                                 </Carousel>
-                                <div className={style.list_dots}>
-                                    <Row>
-                                        <Col>
-                                            <div className={style.item_dots}>
-                                                <img className="card-img" src="https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-74-1024x1024.jpeg" />
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <div className={style.item_dots}>
-                                                <img className="card-img" src="https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-34-500x500.jpeg" />
-                                            </div>
-                                        </Col>
-                                        <Col>
-                                            <div className={style.item_dots}>
-                                                <img className="card-img" src="https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/12/product-name-34-500x500.jpeg" />
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </div>
+
                             </div>
                         </Col>
                         <Col xl={12} md={12} sm={12} xs={24}>
                             <div className={clsx(style.text)}>
-                                <h3 className={style.name}>The Flower Chunky Beanie </h3>
-                                <div className={style.price}><span><Text delete>18$</Text> <MinusOutlined style={{ width: "10px", overflow: 'hidden' }} /></span> $24</div>
+                                <h3 className={style.name}>{model?.productName}</h3>
+                                <div className={style.price}>{model?.price.toLocaleString('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                })}</div>
                                 <p className={style.desc}>Safer For The Environment: Our denim factory partner recycles 98% of their water using reverse osmosis filtration and keeps byproducts out of the environment by mixing them with concrete to create building materials.</p>
-                                <Link to="/" className={clsx(style.btn_shop)}><span>Add To Cart</span> </Link>
+                                <div className='d-flex align-items-center pt-sm-0 pt-2'
+                                    style={{ justifyContent: "space-between" }}>
+                                    <b>Số lượng</b>
+                                    <div className={style.input_number}>
+                                        <span onClick={() => updateCount('-')}><MinusOutlined
+                                            style={{ fontSize: "13px", verticalAlign: "middle" }} /></span>
+                                        {/* <input type='number' id={'ip_number' + 1} value={1} /> */}
+                                        <Input className={style.input}
+                                            value={count}
+                                            onChange={(e) => {
+                                                setCount(Number(e.target.value))
+                                            }}
+                                        />
 
-                                <div className={clsx(style.select)}>
-                                    <b>Color:</b>
-                                    <div className={style.item}>Blue</div>
-                                    <div className={style.item}>Brown</div>
+                                        <span onClick={() => updateCount('+')}>+</span>
+                                    </div>
+
                                 </div>
-                                <div className={clsx(style.select)}>
-                                    <b>Sizes:</b>
-                                    <div className={style.item}>XL</div>
-                                    <div className={style.item}>SM</div>
-                                </div>
+
+                                <Link onClick={addToCart} className={clsx(style.btn_shop)}><span>Add To Cart</span> </Link>
 
                                 <Collapse defaultActiveKey={['1']}
                                     expandIconPosition="right"
@@ -195,25 +216,9 @@ function DetailProduct() {
                                     expandIcon={({ isActive }) => <RightOutlined rotate={isActive ? '-90' : '90'} />}
                                 >
                                     <Panel header={<p className={style.desc_title}>Description</p >} style={{ border: "1px solid #e9e9e9", borderBottom: "none" }} key="1">
-                                        A dog is a type of domesticated animal.
-                                        Known for its loyalty and faithfulness,
-                                        it can be found as a welcome guest in many households across the world.
+                                        {model?.description}
                                     </Panel>
-                                    <Panel header={<p className={style.desc_title}>Additional information</p >} style={{ border: "1px solid #e9e9e9", borderBottom: "none" }} key="2">
-                                        A dog is a type of domesticated animal.
-                                        Known for its loyalty and faithfulness,
-                                        it can be found as a welcome guest in many households across the world.
-                                    </Panel>
-                                    <Panel header={<p className={style.desc_title}>Q & A</p >} style={{ border: "1px solid #e9e9e9", borderBottom: "none" }} key="3">
-                                        A dog is a type of domesticated animal.
-                                        Known for its loyalty and faithfulness,
-                                        it can be found as a welcome guest in many households across the world.
-                                    </Panel>
-                                    <Panel header={<p className={style.desc_title}>Unlimited Tabs</p >} style={{ border: "1px solid #e9e9e9", borderBottom: "none" }} key="4">
-                                        A dog is a type of domesticated animal.
-                                        Known for its loyalty and faithfulness,
-                                        it can be found as a welcome guest in many households across the world.
-                                    </Panel>
+
                                 </Collapse>
                                 <div className={style.summary}>
                                     <div className={style.item_summary}>
@@ -251,7 +256,6 @@ function DetailProduct() {
                                     <div className={clsx(style.item, 'mt-4')}>
                                         <b>Share: </b>
                                         {social.map((item, index) => {
-                                            console.log('1');
                                             return (<Tooltip key={index} style={{ borderRadius: "0" }} title={item.name}>
                                                 <div className={style.social} style={{ backgroundColor: item.color }}>
                                                     <div className={style.social_item}>

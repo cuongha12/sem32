@@ -8,6 +8,8 @@ export const AppContext = createContext()
 export const AppProvider = ({ children }) => {
     const userCustomer = useSelector((e) => e?.user?.loginUser?.currentUser?.userData)
     const user = useSelector((e) => e?.admin?.login?.currentUser?.userData)
+    const token = useSelector((e) => e?.user?.loginUser?.currentUser?.token)
+    const cart = useSelector((e) => e?.cart?.currentCart)
     const dispatch = useDispatch()
     let navigate = useNavigate()
     const [category, setCategory] = useState([])
@@ -30,7 +32,7 @@ export const AppProvider = ({ children }) => {
         } catch (error) {
             message.error("Lỗi hệ thống")
         }
-    }, [user.accountID])
+    }, [user?.accountID])
 
     const loadProduct = useCallback(async () => {
         try {
@@ -53,7 +55,9 @@ export const AppProvider = ({ children }) => {
                 loadAccount,
                 account,
                 loadProduct,
-                product
+                product,
+                token,
+                cart
             }}
         >
 

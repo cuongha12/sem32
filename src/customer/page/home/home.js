@@ -4,11 +4,12 @@ import clsx from "clsx";
 import { Button, Carousel, Col, Divider, Modal, Row, Tabs, Typography } from "antd";
 import C_product from "../../../component/carousel_product/c_product";
 import Footer from "../../layout/footer/footer";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Btn_x from "../../../component/btn/btn_x";
 import { MinusOutlined } from "@ant-design/icons";
+import { AppContext } from "../../../Context/AppContext";
 function Home() {
-
+    const { loadProduct,product } = useContext(AppContext)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
@@ -21,7 +22,6 @@ function Home() {
         setIsModalOpen(false);
     };
     const { Text, Link } = Typography;
-
     var settings_articles = {
         slidesToShow: 4,
         slidesToScroll: 1,
@@ -82,6 +82,9 @@ function Home() {
             }
         ]
     };
+    useEffect(()=>{
+        loadProduct()
+    },[])
     return (
         <>
             <Banner />
@@ -89,7 +92,7 @@ function Home() {
                 <Row className={clsx(style.trends)}>
                     <Col lg={6} md={12} className={clsx(style.item, style.text)}>
                         <div>
-                            <span>2022 winter trends</span>
+                            <span>2024 winter trends</span>
                             <h3>Check New Trends</h3>
                             <p>Cardigan helvetica sriracha, portland celiac truffaut woke artisan succulents cred art party slow-carb pinterest. Migas humblebrag chicharrones everyday carry four loko der panth overlay...</p>
                         </div>
@@ -97,7 +100,7 @@ function Home() {
                     </Col>
                     <Col lg={6} sm={12} xs={24} span={24}>
                         <div className={clsx(style.item, style.image)}>
-                            <img className={'card-img'} src='https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/banner-name-5-e1631633509950-500x500.jpeg'></img>
+                            <img className={'card-img'} src='https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/09/banner-name-5-e1631633509950-500x500.jpeg'></img>
                             <div className={clsx(style.content)}>
                                 <span>Women</span>
                                 <h4>New Women Shoes</h4>
@@ -108,7 +111,7 @@ function Home() {
                     </Col>
                     <Col lg={6} sm={12} xs={24} span={24}>
                         <div className={clsx(style.item, style.image)}>
-                            <img className={'card-img'} src='https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/banner-name-4-e1631633328983-500x500.jpeg'></img>
+                            <img className={'card-img'} src='https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/09/banner-name-4-e1631633328983-500x500.jpeg'></img>
                             <div className={clsx(style.content)}>
                                 <span>Women</span>
                                 <h4>New Women Shoes</h4>
@@ -119,7 +122,7 @@ function Home() {
                     </Col>
                     <Col lg={6} sm={12} xs={24} span={24}>
                         <div className={clsx(style.item, style.image)}>
-                            <img className={'card-img'} src='https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-4-500x500.jpg'></img>
+                            <img className={'card-img'} src='https://ninetheme.com/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-4-500x500.jpg'></img>
                             <div className={clsx(style.content)}>
                                 <span>Women</span>
                                 <h4>New Women Shoes</h4>
@@ -136,7 +139,7 @@ function Home() {
                         <h3>Winter Collections</h3>
                         <p>Cardigan helvetica sriracha, portland celiac truffaut</p>
                     </div>
-                    <C_product></C_product>
+                    <C_product product={product} number={product?.slice(1,5).length} ></C_product>
                 </div>
                 <Divider></Divider>
 
@@ -145,246 +148,16 @@ function Home() {
                         <h3>Featured Products</h3>
                         {/* <p>Cardigan helvetica sriracha, portland celiac truffaut</p> */}
                     </div>
-                    <C_product number={5}></C_product>
+                    <C_product number={product?.slice(6,10).length} product={product}></C_product>
                 </div>
                 <Divider></Divider>
 
-                <div className={style.collections} style={{ minHeight: "440px" }} >
-                    <div style={{ textAlign: 'center' }}>
-                        <h3>This Month’s Best Sellers</h3>
-                        {/* <p>Cardigan helvetica sriracha, portland celiac truffaut</p> */}
-
-                    </div>
-                    <Tabs
-                        defaultActiveKey="1"
-                        centered
-                        tabBarStyle={{ fontSize: '16px' }}
-                        // size={'large'}
-                        items={
-                            [
-                                {
-                                    label: `Men`,
-                                    key: 1,
-                                    children: <C_product number={5}></C_product>,
-                                },
-                                {
-                                    label: `Women`,
-                                    key: 2,
-                                    children: <C_product number={5}></C_product>,
-                                },
-                            ]
-
-                        }
-                    />
-
-                </div>
+              
 
             </div>
-            <div className={style.comment}>
-                <div className={style.c_comment}>
-                    <Carousel autoplay style={{ padding: "60px 0" }}>
-                        <div>
-                            <p>This is due to their excellent service, competitive pricing and customer support. It’s throughly refresing to get such a personal touch. Duis aute lorem ipsum is simply free text irure dolor in reprehenderit </p>
-                            <Row className={style.author} justify="center" align="middle">
-                                <Col >
-                                    <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/avatar-3-80x80.jpg"></img>
-                                </Col>
-                                <Col style={{ verticalAlign: "middle" }} className="d-flex align-items-center">
-
-                                    <div>
-                                        <h4>Jessica Brown</h4>
-                                        <small>Customer</small>
-                                    </div>
-
-                                </Col>
-
-                            </Row>
-
-                        </div>
-                        <div>
-                            <p>This is due to their excellent service, competitive pricing and customer support. It’s throughly refresing to get such a personal touch. Duis aute lorem ipsum is simply free text irure dolor in reprehenderit </p>
-                            <Row className={style.author} justify="center" align="middle">
-                                <Col >
-                                    <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/avatar-3-80x80.jpg"></img>
-                                </Col>
-                                <Col style={{ verticalAlign: "middle" }} className="d-flex align-items-center">
-
-                                    <div>
-                                        <h4>Jessica Brown</h4>
-                                        <small>Customer</small>
-                                    </div>
-
-                                </Col>
-
-                            </Row>
-
-                        </div>
-                    </Carousel>
-                </div>
-            </div>
-            <div style={{ maxWidth: "1580px", margin: "0 auto" }}>
-                <div className={style.collections}>
-                    <div style={{ textAlign: 'center' }}>
-                        <h3>Trend Products Of The Week</h3>
-                        {/* <p>Cardigan helvetica sriracha, portland celiac truffaut</p> */}
-                    </div>
-                    <C_product number={5}></C_product>
-                </div>
-
-
-            </div>
-            <div className={style.articles}>
-                <div style={{ maxWidth: "1580px", margin: "0 auto", padding: "32px 0" }}>
-
-                    <div className={style.collections}>
-                        <div style={{ textAlign: 'center' }}>
-                            <h3>Current Articles From Styler</h3>
-                            <p>Cardigan helvetica sriracha, portland celiac truffaut</p>
-                        </div>
-                        <Carousel
-                            autoplay
-                            style={{ padding: "60px 0" }}
-                            {...settings_articles}
-                        >
-                            <div>
-                                <div className={style.item}>
-                                    <div className={style.image}>
-                                        <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-3-370x370.jpg"></img>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <small className="text-uppercase">
-                                            <span> Admin</span> september 9, 2021
-                                        </small>
-                                        <h4>Winter dark mode women modern shoes</h4>
-                                        <small>Take all negative words out of your mental dictionary and focus on the solutions with…</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className={style.item}>
-                                    <div className={style.image}>
-                                        <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-3-370x370.jpg"></img>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <small className="text-uppercase">
-                                            <span> Admin</span> september 9, 2021
-                                        </small>
-                                        <h4>Winter dark mode women modern shoes</h4>
-                                        <small>Take all negative words out of your mental dictionary and focus on the solutions with…</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className={style.item}>
-                                    <div className={style.image}>
-                                        <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-3-370x370.jpg"></img>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <small className="text-uppercase">
-                                            <span> Admin</span> september 9, 2021
-                                        </small>
-                                        <h4>Winter dark mode women modern shoes</h4>
-                                        <small>Take all negative words out of your mental dictionary and focus on the solutions with…</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className={style.item}>
-                                    <div className={style.image}>
-                                        <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-3-370x370.jpg"></img>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <small className="text-uppercase">
-                                            <span> Admin</span> september 9, 2021
-                                        </small>
-                                        <h4>Winter dark mode women modern shoes</h4>
-                                        <small>Take all negative words out of your mental dictionary and focus on the solutions with…</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <div className={style.item}>
-                                    <div className={style.image}>
-                                        <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/09/slide-name-3-370x370.jpg"></img>
-                                    </div>
-                                    <div style={{ padding: "20px" }}>
-                                        <small className="text-uppercase">
-                                            <span> Admin</span> september 9, 2021
-                                        </small>
-                                        <h4>Winter dark mode women modern shoes</h4>
-                                        <small>Take all negative out of your mental dictionary and focus on the solutions with…</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </Carousel>
-                    </div>
-                </div>
-
-            </div>
-            <div style={{ maxWidth: "1580px", margin: "0 auto", padding: "32px 0" }}>
-
-                <div className={clsx(style.collections, style.insta)}>
-                    <div style={{ textAlign: 'center' }}>
-                        <h3>Follow On Instagram</h3>
-                        {/* <p>Cardigan helvetica sriracha, portland celiac truffaut</p> */}
-                    </div>
-                    <Carousel
-                        autoplay
-                        style={{ padding: "40px 0" }}
-                        {...settings_insta}
-                    >
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={style.insta_item}>
-                                <img className="card-img" src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/personal-img-13-370x370.jpg" />
-                                <img src="https://img.icons8.com/fluency/48/null/instagram-new.png"></img>
-                            </div>
-                        </div>
-
-                    </Carousel>
-                </div>
-            </div>
+           
+            
+           
             <div className={style.modal_product}>
                 {/*<Button type="primary" onClick={showModal}>*/}
                 {/*    Open Modal*/}

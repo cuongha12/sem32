@@ -11,7 +11,6 @@ import Compare_drawer from "./_drawer/compare/compare";
 import NavDrawer from "./_drawer/nav/nav";
 import UserDrawer from "./_drawer/user/user";
 import Wishlish_drawer from "./_drawer/wishlist/wishlist";
-import { useSelector } from "react-redux";
 import { logOutUser } from "../../../redux/apiRequest";
 import { AppContext } from "../../../Context/AppContext";
 
@@ -34,7 +33,7 @@ function Header() {
     const onCloseCart = () => {
         setOpenCart(false);
     };
-    const { userCustomer, dispatch, navigate } = useContext(AppContext)
+    const { userCustomer, dispatch, navigate,cart } = useContext(AppContext)
     const logOut = useCallback(async () => {
         await logOutUser(dispatch)
         await navigate("/login")
@@ -236,8 +235,10 @@ function Header() {
                         <div className={clsx(style.header_right)}>
                             <Space>
                                 <div className={clsx(style.header_icon, 'd-sm-flex', 'd-none')}><SearchOutlined /></div>
-                                <Badge style={{ backgroundColor: '#daa174' }} count="2">
-                                    <div onClick={() => showDrawerCart('cart')} className={clsx(style.header_icon)}><ShoppingOutlined /></div>
+                                <Badge style={{ backgroundColor: '#daa174' }} count={cart?.length > 0 ? cart.length : 0}>
+                                    {/* <div onClick={() => showDrawerCart('cart')} className={clsx(style.header_icon)}><ShoppingOutlined /></div> */}
+                                    <div onClick={() => navigate("/cart")} className={clsx(style.header_icon)}><ShoppingOutlined /></div>
+
                                 </Badge>
                                 <Badge style={{ backgroundColor: '#daa174' }} count="0">
                                     <div onClick={() => showDrawerCart('wish')} className={clsx(style.header_icon)}><HeartOutlined /></div>
@@ -330,7 +331,8 @@ function Header() {
 
                             <div className={clsx(style.nav_icon)}>
                                 <Badge offset={[0, 10]} style={{ backgroundColor: '#daa174' }} count="2">
-                                    <div onClick={() => setTab_left((t) => t !== 'cart' ? 'cart' : false)} className={clsx(style.item_icon)} style={tab_left === 'cart' ? { backgroundColor: "#fff" } : {}}><ShoppingOutlined /></div>
+                                    {/* <div onClick={() => setTab_left((t) => t !== 'cart' ? 'cart' : false)} className={clsx(style.item_icon)} style={tab_left === 'cart' ? { backgroundColor: "#fff" } : {}}><ShoppingOutlined /></div> */}
+                                    <div onClick={() => navigate('/cart')}><ShoppingOutlined /></div>
                                 </Badge>
                             </div>
                             <div className={clsx(style.nav_icon)}>
