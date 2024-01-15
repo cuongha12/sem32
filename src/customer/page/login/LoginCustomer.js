@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Form, Input, message } from "antd";
 import './login.css'
 import { NavLink } from "react-router-dom";
@@ -6,10 +6,17 @@ import { loginUser } from '../../../redux/apiRequest';
 import { AppContext } from '../../../Context/AppContext';
 const LoginCustomer = () => {
 	const [form] = Form.useForm();
-	const { dispatch, navigate } = useContext(AppContext)
+	const { dispatch, navigate,userCustomer } = useContext(AppContext)
 	const onFinish = async (values) => {
 		await loginUser(values, dispatch, message, navigate)
 	};
+
+	useEffect(()=>{
+		if (userCustomer){
+			navigate('/')
+		}
+	},[])
+
 	return (
 		<div className="layoutLoginUser">
 			<div className="mainLoginUser">

@@ -3,11 +3,12 @@ import { Col, Divider, Input, Row, Spin, Table, Button, Card, message, Space, Re
 import clsx from 'clsx';
 // import IpNumber from '../../../component/inputNumber/ipNumber';
 import style from './cart.module.scss'
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../Context/AppContext';
 import { deleteCart, deleteManyCart, updateCart } from '../../../redux/apiRequest';
-function Cart() {
-    const { cart, dispatch, navigate, token } = useContext(AppContext)
+
+const Cart = () => {
+    const {cart, dispatch, navigate, token, userCustomer} = useContext(AppContext)
     const [loading, setLoading] = useState(false);
     const quantity = async (action, id) => {
         setLoading(true)
@@ -17,7 +18,7 @@ function Cart() {
         setLoading(true)
         await deleteCart(id, dispatch, message, setLoading, token)
     }
-    const totalCart = cart.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0
+    const totalCart = cart?.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0
     const shipping = 50000
     const columns = [
         {
@@ -33,7 +34,7 @@ function Cart() {
                     <img style={{
                         width: '100px',
                         height: '100px'
-                    }} src={`/api/ImageControllers/${e}`} alt="" />
+                    }} src={`/api/ImageControllers/${e}`} alt=""/>
                 </span>
             ),
             key: 'product'
@@ -46,10 +47,12 @@ function Cart() {
                     <div className={style.item}>
                         <Row align='middle'>
                             <Col sm={12} span={24}>
-                                <div className='d-flex align-items-center pt-sm-0 pt-2' style={{ justifyContent: "space-between" }}>
+                                <div className='d-flex align-items-center pt-sm-0 pt-2'
+                                     style={{justifyContent: "space-between"}}>
                                     <div className={style.input_number}>
-                                        <span onClick={() => quantity('minus', e.cartID)}><MinusOutlined style={{ fontSize: "13px", verticalAlign: "middle" }} /></span>
-                                        <input type='number' id={'ip_number' + 1} value={e.quantity} />
+                                        <span onClick={() => quantity('minus', e.cartID)}><MinusOutlined
+                                            style={{fontSize: "13px", verticalAlign: "middle"}}/></span>
+                                        <input type='number' id={'ip_number' + 1} value={e.quantity}/>
                                         <span onClick={() => quantity('plus', e.cartID)}>+</span>
                                     </div>
                                 </div>
@@ -77,9 +80,9 @@ function Cart() {
             render: (e) => (
                 <span>
                     <Space>
-                        <Button icon={<DeleteFilled />}
-                            onClick={() => deleteProduct(e.cartID)}
-                            danger size={'middle'} type="primary" >
+                        <Button icon={<DeleteFilled/>}
+                                onClick={() => deleteProduct(e.cartID)}
+                                danger size={'middle'} type="primary">
                         </Button>
                     </Space>
                 </span>
@@ -100,16 +103,29 @@ function Cart() {
         setLoading(true);
         await deleteManyCart(selectedRowKeys, dispatch, message, setLoading, token, setSelectedRowKeys)
     };
+    useEffect(() => {
+        if (!userCustomer) {
+            navigate("/login")
+        }
+    }, [navigate, userCustomer])
     return (
         <>
             {
                 cart?.length > 0 ? (<Spin spinning={loading}>
-                    <div style={{ backgroundColor: "#f8f9fa", height: '80px' }}>
-                        <div className={clsx(style.title)} style={{ padding: "0 1rem" }}>
+                    <div style={{backgroundColor: "#f8f9fa", height: '80px'}}>
+                        <div className={clsx(style.title)} style={{padding: "0 1rem"}}>
                             <h2>Cart</h2>
                             <span className={style.redirect}>
                                 Home
-                                <span style={{ width: '5px', margin: '0 10px', height: "5px", borderRadius: "50%", backgroundColor: "#e2e2e2", display: "inline-block", verticalAlign: "middle" }}></span>
+                                <span style={{
+                                    width: '5px',
+                                    margin: '0 10px',
+                                    height: "5px",
+                                    borderRadius: "50%",
+                                    backgroundColor: "#e2e2e2",
+                                    display: "inline-block",
+                                    verticalAlign: "middle"
+                                }}></span>
                                 Cart
                             </span>
                         </div>
@@ -135,7 +151,8 @@ function Cart() {
                             <Col lg={16} span={24}>
 
                                 <Card>
-                                    <Table pagination={false} rowKey={"cartID"} rowSelection={rowSelection} columns={columns} dataSource={cart} />
+                                    <Table pagination={false} rowKey={"cartID"} rowSelection={rowSelection}
+                                           columns={columns} dataSource={cart}/>
                                 </Card>
 
                             </Col>
@@ -144,7 +161,7 @@ function Cart() {
                                 <div className={clsx(style.total, 'mt-lg-0 mt-5')}>
                                     <h5>Cart totals</h5>
                                     <div className='d-flex justify-content-between'>
-                                        <span style={{ textTransform: "uppercase" }}>SUBTOTAL</span>
+                                        <span style={{textTransform: "uppercase"}}>SUBTOTAL</span>
                                         <b>{totalCart.toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
@@ -152,7 +169,8 @@ function Cart() {
 
                                     </div>
                                     {
-                                        totalCart > 100000 && <div style={{ backgroundColor: '#f8f9fa', padding: ' 8px', marginBottom: '8px' }}>
+                                        totalCart > 100000 &&
+                                        <div style={{backgroundColor: '#f8f9fa', padding: ' 8px', marginBottom: '8px'}}>
                                             <div className='d-flex justify-content-between'>
                                                 <span>Shipping</span><b></b>
                                             </div>
@@ -168,14 +186,15 @@ function Cart() {
                                         </div>
                                     }
                                     <div className='d-flex justify-content-between'>
-                                        <span style={{ textTransform: "uppercase" }}>TOTAL</span>
+                                        <span style={{textTransform: "uppercase"}}>TOTAL</span>
                                         <b>{(totalCart > 100000 ? totalCart - shipping : totalCart).toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
                                         })}</b>
 
                                     </div>
-                                    <a name="" id="" className={clsx(style.btn_checkout, 'btn')} href="#" role="button">Process To Checkout</a>
+                                    <a name="" id="" className={clsx(style.btn_checkout, 'btn')} href="#" role="button">Process
+                                        To Checkout</a>
                                 </div>
                             </Col>
                         </Row>
@@ -187,7 +206,7 @@ function Cart() {
                     <Result
                         title="Giỏ hàng trống"
                         extra={[
-                            <Button onClick={()=>navigate("/shop")} type="primary" key="console">
+                            <Button onClick={() => navigate("/shop")} type="primary" key="console">
                                 Tiếp tục mua hàng
                             </Button>,
                         ]}

@@ -1,9 +1,7 @@
-import logo from './logo.svg';
+
 import './App.css';
 import 'antd/dist/reset.css';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import Btn_x from './component/btn/btn_x';
-import Footer from './customer/layout/footer/footer';
+import {  Route, Routes } from 'react-router-dom';
 import { Suspense, lazy, useLayoutEffect } from 'react';
 import { AppProvider } from './Context/AppContext.js';
 import { Spin } from 'antd';
@@ -22,7 +20,7 @@ const Account = lazy(() => import("./admin/page/user/User"))
 const Product = lazy(() => import("./admin/page/product/Product.js"));
 const Notfound = lazy(() => import("./component/404/Notfound.js"))
 const Detail = lazy(() => import("./customer/page/detail-product/detail_product.js"))
-const Cart = lazy(() => import("./customer/page/cart/cart.js"))
+const Cart = lazy(() => import("./customer/page/cart/Cart.js"))
 function App() {
   const location = useLocation();
   useLayoutEffect(() => {
@@ -36,10 +34,10 @@ function App() {
         <Routes>
           <Route path='' element={<Main />}>
             <Route index element={<Home />} />
-            <Route path="/shop/" element={<Shop />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/detail/:id" element={<Detail />} />
-            <Route path="/cart/" element={<Cart />} />
-            <Route path="/checkout/" element={<Checkout />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
             {/* <Route path='*' element={<Notfound />} /> */}
           </Route>
           <Route path='/admin/' element={<HeaderAdmin />}>

@@ -1,6 +1,6 @@
 import { loginFailed, loginStart, loginSuccess, logoutStart, logoutSuccess } from "./AdminSlice";
 import { fetchCartCount } from "./CartSlice";
-import { loginUserFailed, loginUserStart, loginUserSuccess, logoutUserFailed, logoutUserStart, logoutUserSuccess } from "./UserSlice"
+import { loginUserFailed, loginUserStart, loginUserSuccess, logoutUserStart, logoutUserSuccess } from "./UserSlice"
 import axios from "axios";
 export const loginUser = async (value, dispatch, message, navigate) => {
     dispatch(loginUserStart())
@@ -24,6 +24,7 @@ export const loginUser = async (value, dispatch, message, navigate) => {
 export const logOutUser = async (dispatch) => {
     dispatch(logoutUserStart())
     dispatch(logoutUserSuccess(''))
+    dispatch(fetchCartCount(''))
     return
 }
 

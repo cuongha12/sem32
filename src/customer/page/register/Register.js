@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
 import { Button, Form, Input, message } from "antd";
 import '../login/login.css'
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -6,7 +6,7 @@ import axios from "axios";
 import { AppContext } from '../../../Context/AppContext';
 const Register = () => {
 	const [form] = Form.useForm();
-	const { navigate } = useContext(AppContext)
+	const { navigate,userCustomer } = useContext(AppContext)
 	const onFinish = useCallback(async (values) => {
 		try {
 			await axios.post('/register', values).then(() => {
@@ -19,6 +19,11 @@ const Register = () => {
 		}
 		form.resetFields({});
 	}, [navigate, form])
+	useEffect(()=>{
+		if (userCustomer){
+			navigate('/')
+		}
+	},[])
 	return (
 		<div className="layoutLoginUser">
 			<div className="mainLoginUser">

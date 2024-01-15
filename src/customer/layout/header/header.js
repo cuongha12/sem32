@@ -237,7 +237,7 @@ function Header() {
                                 <div className={clsx(style.header_icon, 'd-sm-flex', 'd-none')}><SearchOutlined /></div>
                                 <Badge style={{ backgroundColor: '#daa174' }} count={cart?.length > 0 ? cart.length : 0}>
                                     {/* <div onClick={() => showDrawerCart('cart')} className={clsx(style.header_icon)}><ShoppingOutlined /></div> */}
-                                    <div onClick={() => navigate("/cart")} className={clsx(style.header_icon)}><ShoppingOutlined /></div>
+                                    <div onClick={() => navigate('/cart')} className={clsx(style.header_icon)}><ShoppingOutlined /></div>
 
                                 </Badge>
                                 <Badge style={{ backgroundColor: '#daa174' }} count="0">

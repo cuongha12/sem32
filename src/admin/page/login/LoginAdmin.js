@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Form, Input, message } from "antd";
 import '../../../customer/page/login/login.css'
 
@@ -7,10 +7,15 @@ import { AppContext } from '../../../Context/AppContext';
 
 const LoginAdmin = () => {
     const [form] = Form.useForm();
-    const { dispatch, navigate } = useContext(AppContext)
+    const { dispatch, navigate ,user} = useContext(AppContext)
     const onFinish = async (values) => {
         await loginAdmin(values, dispatch, message, navigate)
     };
+    useEffect(()=>{
+        if (user){
+            navigate('/admin')
+        }
+    },[])
     return (
         <div className="layoutLoginUser">
             <div className="mainLoginUser">
