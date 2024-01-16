@@ -2,7 +2,8 @@ import React, { useCallback, useContext, useEffect } from 'react'
 import { Button, Space, Drawer, Form, Input, Switch, message, Select } from 'antd';
 import axios from 'axios';
 import { AppContext } from '../../../Context/AppContext';
-const UserForm = ({ open, onClose, mode, model }) => {
+
+const FormProfile = ({ model, onClose, open }) => {
     const [form] = Form.useForm();
     const { loadAccount } = useContext(AppContext)
     const Close = useCallback(() => {
@@ -11,19 +12,11 @@ const UserForm = ({ open, onClose, mode, model }) => {
     }, [form, onClose])
     const onFinish = useCallback(async (value) => {
         try {
-            if (mode === 'add') {
-                await axios.post("/register", value).then(() => {
-                    loadAccount()
-                    message.success("Cập nhật dữ liệu thành công")
-                    Close()
-                })
-            } else {
-                await axios.put("/api/AccountControllers/" + model.accountID, value).then(() => {
-                    loadAccount()
-                    message.success("Cập nhật dữ liệu thành công")
-                    Close()
-                })
-            }
+            await axios.put("/api/AccountControllers/" + model.accountID, value).then(() => {
+                loadAccount()
+                message.success("Cập nhật dữ liệu thành công")
+                Close()
+            })
         } catch (error) {
             message.error('Cập nhật dữ liệu thất bại')
             if (model) {
@@ -31,7 +24,7 @@ const UserForm = ({ open, onClose, mode, model }) => {
             }
             form.resetFields();
         }
-    }, [Close, loadAccount, form, mode, model])
+    }, [Close, form, model])
     useEffect(() => {
         if (model) {
             form.setFieldsValue(model)
@@ -39,12 +32,12 @@ const UserForm = ({ open, onClose, mode, model }) => {
     }, [model, form])
     return (
         <Drawer title="Cập nhật dữ liệu danh mục" width={'100%'} placement="right" onClose={Close} open={open}>
-            <Form name="account-form"
+            <Form name="profile-form"
                 form={form}
                 autoComplete="off"
                 layout="vertical"
                 labelAlign="left"
-            onFinish={onFinish}
+                onFinish={onFinish}
             >
                 <Form.Item
                     style={{ width: '20%' }}
@@ -57,7 +50,7 @@ const UserForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input  allowClear placeholder="Tên đăng nhập" />
+                    <Input allowClear placeholder="Tên đăng nhập" />
                 </Form.Item>
                 <Form.Item
                     style={{ width: '20%' }}
@@ -70,7 +63,7 @@ const UserForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input  allowClear  placeholder="Email" />
+                    <Input allowClear placeholder="Email" />
                 </Form.Item>
                 <Form.Item
                     style={{ width: '20%' }}
@@ -83,7 +76,7 @@ const UserForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input  allowClear placeholder="Số điện thoại" />
+                    <Input allowClear placeholder="Số điện thoại" />
                 </Form.Item>
                 <Form.Item
                     style={{ width: '20%' }}
@@ -96,38 +89,7 @@ const UserForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input  allowClear placeholder="Địa chỉ" />
-                </Form.Item>
-                <Form.Item
-                    style={{ width: '20%' }}
-                    label="Chức vụ"
-                    name="roleName"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Chức vụ không để trống',
-                        },
-                    ]}
-                >
-                    <Select
-                        allowClear
-                        placeholder="Chức vụ"
-                        optionFilterProp="children"
-                        options={[
-                            {
-                                value: 'user',
-                                label: 'Người dùng',
-                            },
-                            {
-                                value: 'admin',
-                                label: 'Quản trị viên',
-                            },
-                            {
-                                value: 'employee',
-                                label: 'Thành viên',
-                            }
-                        ]}
-                    />
+                    <Input allowClear placeholder="Địa chỉ" />
                 </Form.Item>
                 <Form.Item
                     style={{ width: '20%' }}
@@ -140,17 +102,14 @@ const UserForm = ({ open, onClose, mode, model }) => {
                         },
                     ]}
                 >
-                    <Input.Password  allowClear placeholder="Mật khẩu" />
-                </Form.Item>
-                <Form.Item valuePropName="checked" name="status" label={"Trạng thái"}>
-                    <Switch />
+                    <Input.Password allowClear placeholder="Mật khẩu" />
                 </Form.Item>
                 <Form.Item>
                     <Space>
                         <Button
                             type="primary"
                             htmlType="submit"
-                            form='account-form'
+                            form='profile-form'
                         > Lưu lại</Button>
                         <Button type="default" onClick={() => {
                             onClose()
@@ -165,4 +124,4 @@ const UserForm = ({ open, onClose, mode, model }) => {
     )
 }
 
-export default UserForm
+export default FormProfile

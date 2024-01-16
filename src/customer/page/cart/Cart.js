@@ -113,6 +113,7 @@ const Cart = () => {
                     Authorization: 'Bearer ' + token
                 }
             }).then(async ()=>{
+                setSelectedRowKeys([])
                 setLoading(false)
                 navigate(`/result`)
                 await dispatch(fetchCartCount(token))
@@ -180,9 +181,9 @@ const Cart = () => {
 
                             <Col lg={8} span={24}>
                                 <div className={clsx(style.total, 'mt-lg-0 mt-5')}>
-                                    <h5>Cart totals</h5>
+                                    <h5>Tổng số giỏ hàng</h5>
                                     <div className='d-flex justify-content-between'>
-                                        <span style={{textTransform: "uppercase"}}>SUBTOTAL</span>
+                                        <span style={{textTransform: "uppercase"}}>Tổng phụ</span>
                                         <b>{totalCart.toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
@@ -193,21 +194,15 @@ const Cart = () => {
                                         totalCart > 100000 &&
                                         <div style={{backgroundColor: '#f8f9fa', padding: ' 8px', marginBottom: '8px'}}>
                                             <div className='d-flex justify-content-between'>
-                                                <span>Shipping</span><b></b>
+                                                <span>Giảm giá vận chuyển</span><b></b>
                                             </div>
                                             <div className='d-flex justify-content-between'>
-                                                <span>Flat rate:</span><b>{shipping}</b>
-                                            </div>
-                                            <div className=''>
-                                                <span>Shiping to </span><b>NY</b>
-                                            </div>
-                                            <div className=''>
-                                                <span>Change Address</span><b></b>
+                                                <span>Tỷ giá cố định:</span><b>{shipping}</b>
                                             </div>
                                         </div>
                                     }
                                     <div className='d-flex justify-content-between'>
-                                        <span style={{textTransform: "uppercase"}}>TOTAL</span>
+                                        <span style={{textTransform: "uppercase"}}>Tổng cộng</span>
                                         <b>{(totalCart > 100000 ? totalCart - shipping : totalCart).toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
@@ -215,7 +210,7 @@ const Cart = () => {
 
                                     </div>
                                     <Button onClick={addOrder} disabled={selectedRowKeys.length < 1}
-                                            className={clsx(style.btn_checkout, 'btn')}>Process To Checkout</Button>
+                                            className={clsx(style.btn_checkout, 'btn')}>Đặt hàng</Button>
                                 </div>
                             </Col>
                         </Row>

@@ -24,6 +24,7 @@ const Detail = lazy(() => import("./customer/page/detail-product/detail_product.
 const Cart = lazy(() => import("./customer/page/cart/Cart.js"))
 const Order = lazy(() => import("./admin/page/order/Order.js"))
 const Success = lazy(() => import("./customer/page/result/Success.js"))
+const Profile = lazy(() => import("./customer/page/profile/Profile.js"))
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/result" element={<Success/>}/>
+            <Route path="/profile" element={<Profile/>}/>
           </Route>
           <Route path='/admin/' element={<HeaderAdmin />}>
             <Route path='category' element={<Category />} />

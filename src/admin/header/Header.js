@@ -13,70 +13,7 @@ import { AppContext } from '../../Context/AppContext';
 import { logOutAdmin } from '../../redux/apiRequest';
 const { Header, Content, Footer, Sider } = Layout;
 // , LaptopOutlined, NotificationOutlined,
-const items2 = [
-    {
-        id: 1,
-        name: 'Thành viên',
-        icon: UsergroupAddOutlined,
-        path: '/admin/account'
-    },
-    {
-        id: 2,
-        name: 'Tài khoản',
-        icon: UserOutlined,
-        path: '/admin/user',
-        children: [
-            {
-                id: 3,
-                name: 'Hồ sơ',
-                path: '/admin/profile'
-            },
-            {
-                id: 4,
-                name: 'Đổi mật khẩu',
-                path: '/admin/change-password'
-            }
-        ]
-    },
-    {
-        id: 5,
-        name: 'Danh mục',
-        icon: LaptopOutlined,
-        path: '/admin/category'
-    },
-    {
-        id: 10,
-        name: 'Sản phẩm',
-        icon: ShoppingOutlined,
-        path: '/admin/product'
-    },
-    {
-        id: 11,
-        name: 'Hóa đơn',
-        icon: SolutionOutlined,
-        path: '/admin/order'
-    }
-].map((e) => {
-    return {
-        key: e.id,
-        name: e.name,
-        path: e.path,
-        icon: React.createElement(e.icon),
-        label: <NavLink style={{
-            textDecoration: 'none'
-        }} to={e.path}>{e.name}</NavLink>,
-        children: e?.children?.map((a, j) => {
-            return {
-                key: a.id,
-                path: a.path,
-                label: <NavLink style={{
-                    textDecoration: 'none',
-                    color: '#fff'
-                }} to={a.path}>{a.name}</NavLink>,
-            };
-        }),
-    };
-});
+
 
 
 const HeaderAdmin = () => {
@@ -114,6 +51,71 @@ const HeaderAdmin = () => {
     } = theme.useToken();
     const location = useLocation()
     let check = []
+    const items2 = [
+        {
+            id: 1,
+            name: 'Thành viên',
+            icon: UsergroupAddOutlined,
+            path: '/admin/account'
+        },
+        {
+            id: 2,
+            name: 'Tài khoản',
+            icon: UserOutlined,
+            path: '/admin/user',
+            children: [
+                {
+                    id: 3,
+                    name: 'Hồ sơ',
+                    path: '/admin/profile'
+                },
+                {
+                    id: 4,
+                    name: 'Đổi mật khẩu',
+                    path: '/admin/change-password'
+                }
+            ]
+        },
+        {
+            id: 5,
+            name: 'Danh mục',
+            icon: LaptopOutlined,
+            path: '/admin/category'
+        },
+        {
+            id: 10,
+            name: 'Sản phẩm',
+            icon: ShoppingOutlined,
+            path: '/admin/product'
+        },
+        {
+            id: 11,
+            name: 'Hóa đơn',
+            icon: SolutionOutlined,
+            path: '/admin/order',
+            status: true
+        }
+    ].filter((a) => user?.roleName === "employee" ? a.status : a).map((e) => {
+        return {
+            key: e.id,
+            name: e.name,
+            path: e.path,
+            icon: React.createElement(e.icon),
+            label: <NavLink style={{
+                textDecoration: 'none'
+            }} to={e.path}>{e.name}</NavLink>,
+            children: e?.children?.map((a, j) => {
+                return {
+                    key: a.id,
+                    path: a.path,
+                    label: <NavLink style={{
+                        textDecoration: 'none',
+                        color: '#fff'
+                    }} to={a.path}>{a.name}</NavLink>,
+                };
+            }),
+        };
+    });
     items2.find((e) => {
 
         if (e?.path === location?.pathname) {

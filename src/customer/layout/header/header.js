@@ -42,21 +42,23 @@ function Header() {
     const [tab_left, setTab_left] = useState(false)
     const items = [
         {
-            key: '5',
-            label: (
-                <span >
-                    {userCustomer?.userName}
-                </span>
-            ),
-            status: true
-        },
-        {
             key: '1',
             label: (
                 <NavLink style={{
                     textDecoration: 'none',
                 }} to={'/profile'}>
                     Hồ sơ
+                </NavLink>
+            ),
+            status: true,
+        },
+        {
+            key: '6',
+            label: (
+                <NavLink style={{
+                    textDecoration: 'none',
+                }} to={'/order'}>
+                    Hoá đơn
                 </NavLink>
             ),
             status: true,

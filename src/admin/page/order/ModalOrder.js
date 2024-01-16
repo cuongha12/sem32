@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, Descriptions, Divider, Modal, Typography } from "antd";
 import Meta from "antd/es/card/Meta";
 
-const ModalOrder = ({open, model, onClose}) => {
-    const {Text} = Typography;
-    const total = model?.order?.orderItems?.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0;
+const ModalOrder = ({ open, model, onClose, orderItem }) => {
+    const { Text } = Typography;
+    const total = model?.orderItems?.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0;
+    useEffect(() => {
+        if (!orderItem && !model) {
+            onClose()
+        }
+    }, [model])
     return (
         <Modal width={1000} title="Thông tin hóa đơn" okButtonProps={{
-            hidden:true
+            hidden: true
         }}
-               cancelButtonProps={{
-                   hidden:true
-               }} open={open} onOk={onClose} cancelText={false} onCancel={onClose}>
+            cancelButtonProps={{
+                hidden: true
+            }} open={open} onOk={onClose} cancelText={false} onCancel={onClose}>
             <div style={{
-                marginTop:50,
-                marginBottom:50,
+                marginTop: 50,
+                marginBottom: 50,
             }}>
                 <Descriptions title="Địa chỉ nhận hàng" size={'default'}>
                     <Descriptions.Item label={<b>Tên người nhận hàng</b>}>
@@ -29,7 +34,7 @@ const ModalOrder = ({open, model, onClose}) => {
                 </Descriptions>
             </div>
             {
-                model?.orderItems?.map((e)=>(
+                orderItem?.map((e) => (
                     <Card
                         key={e.id}
                         style={{
@@ -45,12 +50,12 @@ const ModalOrder = ({open, model, onClose}) => {
                 ))
             }
             <div style={{
-                marginTop:50,
-                marginBottom:50,
+                marginTop: 50,
+                marginBottom: 50,
             }}>
                 <Descriptions title="Tổng hóa đơn" size={'default'}>
                     <Descriptions.Item label={<b>Tên người nhận hàng</b>}>
-                        <Text strong>{total?.price.toLocaleString('vi-VN', {
+                        <Text strong>{total.toLocaleString('vi-VN', {
                             style: 'currency',
                             currency: 'VND'
                         })}</Text>
