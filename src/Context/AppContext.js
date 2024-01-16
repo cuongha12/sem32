@@ -15,6 +15,7 @@ export const AppProvider = ({ children }) => {
     const [category, setCategory] = useState([])
     const [account, setAccount] = useState([])
     const [product, setProduct] = useState([])
+    const [order,setOrder] = useState([])
     const loadCategory = useCallback(async () => {
         try {
             await axios.get('/api/Categories').then((e) => {
@@ -43,6 +44,15 @@ export const AppProvider = ({ children }) => {
             message.error("Lỗi hệ thống")
         }
     }, [])
+    const loadOrder = useCallback(async () => {
+        try {
+            await axios.get('/api/Orders').then((e) => {
+                setOrder(e.data)
+            })
+        } catch (error) {
+            message.error("Lỗi hệ thống")
+        }
+    },[])
     return (
         <AppContext.Provider
             value={{
@@ -57,7 +67,9 @@ export const AppProvider = ({ children }) => {
                 loadProduct,
                 product,
                 token,
-                cart
+                cart,
+                order,
+                loadOrder
             }}
         >
 

@@ -6,6 +6,8 @@ import style from './cart.module.scss'
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../../Context/AppContext';
 import { deleteCart, deleteManyCart, updateCart } from '../../../redux/apiRequest';
+import axios from "axios";
+import { fetchCartCount } from "../../../redux/CartSlice";
 
 const Cart = () => {
     const {cart, dispatch, navigate, token, userCustomer} = useContext(AppContext)
@@ -103,6 +105,25 @@ const Cart = () => {
         setLoading(true);
         await deleteManyCart(selectedRowKeys, dispatch, message, setLoading, token, setSelectedRowKeys)
     };
+    const addOrder = async () => {
+        setLoading(true)
+        try {
+            await axios.post('/api/Orders/PlaceOrder',selectedRowKeys,{
+                headers:{
+                    Authorization: 'Bearer ' + token
+                }
+            }).then(async ()=>{
+                setLoading(false)
+                navigate(`/result`)
+                await dispatch(fetchCartCount(token))
+            })
+        }catch (e) {
+            message.error('Đặt hàng thất bại')
+
+        }finally {
+            setLoading(false)
+        }
+    }
     useEffect(() => {
         if (!userCustomer) {
             navigate("/login")
@@ -193,15 +214,13 @@ const Cart = () => {
                                         })}</b>
 
                                     </div>
-                                    <a name="" id="" className={clsx(style.btn_checkout, 'btn')} href="#" role="button">Process
-                                        To Checkout</a>
+                                    <Button onClick={addOrder} disabled={selectedRowKeys.length < 1}
+                                            className={clsx(style.btn_checkout, 'btn')}>Process To Checkout</Button>
                                 </div>
                             </Col>
                         </Row>
 
                     </div>
-
-
                 </Spin>) : (
                     <Result
                         title="Giỏ hàng trống"

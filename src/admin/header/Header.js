@@ -3,7 +3,7 @@ import {
     UsergroupDeleteOutlined,
     UserOutlined,
     ShoppingOutlined,
-    UsergroupAddOutlined
+    UsergroupAddOutlined, SolutionOutlined
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Layout, Menu, Space, theme, Spin } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
@@ -52,9 +52,9 @@ const items2 = [
     },
     {
         id: 11,
-        name: 'Tài khoản người dùng',
-        icon: UsergroupDeleteOutlined,
-        path: '/admin/usercustomer'
+        name: 'Hóa đơn',
+        icon: SolutionOutlined,
+        path: '/admin/order'
     }
 ].map((e) => {
     return {
