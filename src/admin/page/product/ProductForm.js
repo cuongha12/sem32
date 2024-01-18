@@ -212,7 +212,7 @@ const ProductForm = ({ open, onClose, mode, model }) => {
                         allowClear
                         placeholder="Danh mục sản phẩm"
                         optionFilterProp="children"
-                        options={category?.filter((e)=>!e.status)}
+                        options={category?.filter((e)=>e.status)}
                         fieldNames={{
                             label: 'categoryName',
                             value: 'categoryID'
