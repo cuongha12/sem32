@@ -48,7 +48,7 @@ function C_product(props) {
             <div dot={true} className={clsx(style.products)}>
                 <Carousel infinite={false} autoplay  {...settings}>
                     {
-                        props?.product?.filter((e)=>!e.status)?.map((e) => (
+                        props?.product?.filter((e)=>e.status)?.map((e) => (
                             <div key={e.productID}>
 
                                 <div className={clsx(style.item)}>
