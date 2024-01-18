@@ -46,7 +46,11 @@ export const AppProvider = ({ children }) => {
     }, [])
     const loadOrder = useCallback(async () => {
         try {
-            await axios.get('/api/Orders').then((e) => {
+            await axios.get('/api/Orders/ByAccount',{
+                headers:{
+                    Authorization: "Bearer " + token
+                }
+            }).then((e) => {
                 setOrder(e.data)
             })
         } catch (error) {

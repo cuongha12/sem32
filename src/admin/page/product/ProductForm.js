@@ -57,7 +57,7 @@ const ProductForm = ({ open, onClose, mode, model }) => {
                 formData.append('Description', value.description)
                 formData.append('Price', value.price)
                 formData.append('Quantity', value.quantity)
-                formData.append('Status', value.status)
+                formData.append('Status', value.status ? value.status : false)
                 formData.append('ImageFile', fileList[0].originFileObj)
                 await axios.post("/api/Products", formData).then(() => {
                     loadProduct()
@@ -66,18 +66,18 @@ const ProductForm = ({ open, onClose, mode, model }) => {
                 })
             } else {
                 console.log(fileList);
-                formData.append('ProductName', value.productName)
-                formData.append('CategoryID', value.categoryID)
-                formData.append('Description', value.description)
-                formData.append('Price', value.price)
-                formData.append('Quantity', value.quantity)
-                formData.append('Status', value.status)
-                formData.append('ImageFile', fileList[0].originFileObj)
-                await axios.put("/api/Products/" + model.productID, formData).then(() => {
-                    loadProduct()
-                    message.success("Cập nhật dữ liệu thành công")
-                    Close()
-                })
+                // formData.append('ProductName', value.productName)
+                // formData.append('CategoryID', value.categoryID)
+                // formData.append('Description', value.description)
+                // formData.append('Price', value.price)
+                // formData.append('Quantity', value.quantity)
+                // formData.append('Status', value.status)
+                // formData.append('ImageFile', fileList[0].originFileObj ? fileList[0].originFileObj : fileList[0])
+                // await axios.put("/api/Products/" + model.productID, formData).then(() => {
+                //     loadProduct()
+                //     message.success("Cập nhật dữ liệu thành công")
+                //     Close()
+                // })
             }
         } catch (error) {
             message.error('Cập nhật dữ liệu thất bại')

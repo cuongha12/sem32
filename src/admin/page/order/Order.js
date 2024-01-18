@@ -12,7 +12,6 @@ const Order = () => {
     const [mode, setMode] = useState('')
     const [model, setModel] = useState(undefined)
     const [loading, setLoading] = useState(true)
-    const [orderItem,setOrderItem] = useState([]);
     const showDrawer = () => {
         setOpen(true);
         setMode('add')
@@ -29,19 +28,10 @@ const Order = () => {
             message.error("Lỗi hệ thống")
         }
     }
-    const getOrderItem = async (id) =>{
-        try {
-            await axios.get('/api/Orders/GetOrderItemsByOrderId/' + id).then((e) => {
-                setOrderItem(e.data)
-            })
-        } catch (error) {
-            message.error("Lỗi hệ thống")
-        }
-    }
+
     const handlerEdit = async (id) => {
         setMode('edit')
         await getOrder(id)
-        await getOrderItem(id)
         setOpen(true);
     };
     const deleteOrder = useCallback(async (id) => {
@@ -118,10 +108,10 @@ const Order = () => {
     return (
         <Spin spinning={loading}>
             <Card style={{ padding: 0 }} bordered
-                title="Dữ đơn hàng">
+                title="Dữ liệu đơn hàng">
                 <Table rowKey="orderID" dataSource={order} pagination columns={columns} />
                 {
-                    open && <ModalOrder open={open} model={model} onClose={onClose} orderItem={orderItem}/>
+                    open && <ModalOrder open={open} model={model} onClose={onClose}/>
                 }
             </Card>
         </Spin>

@@ -12,6 +12,8 @@ import { fetchCartCount } from "../../../redux/CartSlice";
 const Cart = () => {
     const {cart, dispatch, navigate, token, userCustomer} = useContext(AppContext)
     const [loading, setLoading] = useState(false);
+    const [total,setTotal] = useState(0)
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const quantity = async (action, id) => {
         setLoading(true)
         await updateCart(id, action, dispatch, message, token, setLoading)
@@ -20,7 +22,7 @@ const Cart = () => {
         setLoading(true)
         await deleteCart(id, dispatch, message, setLoading, token)
     }
-    const totalCart = cart?.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0
+    const totalCart = cart?.filter((e)=> selectedRowKeys.filter((a)=> a === e.cartID))?.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0
     const shipping = 50000
     const columns = [
         {
@@ -91,11 +93,12 @@ const Cart = () => {
             )
         },
     ];
-    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+
     const onSelectChange = (newSelectedRowKeys) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+        setTotal(cart?.filter((e)=>  newSelectedRowKeys.find((a)=> e.cartID === a))?.reduce((a, b) => a + (b.quantity * b.product.price), 0))
         setSelectedRowKeys(newSelectedRowKeys);
     };
+    console.log(total);
     const rowSelection = {
         selectedRowKeys,
         onChange: onSelectChange,
@@ -184,14 +187,14 @@ const Cart = () => {
                                     <h5>Tổng số giỏ hàng</h5>
                                     <div className='d-flex justify-content-between'>
                                         <span style={{textTransform: "uppercase"}}>Tổng phụ</span>
-                                        <b>{totalCart.toLocaleString('vi-VN', {
+                                        <b>{total.toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
                                         })}</b>
 
                                     </div>
                                     {
-                                        totalCart > 100000 &&
+                                        total > 100000 &&
                                         <div style={{backgroundColor: '#f8f9fa', padding: ' 8px', marginBottom: '8px'}}>
                                             <div className='d-flex justify-content-between'>
                                                 <span>Giảm giá vận chuyển</span><b></b>
@@ -203,7 +206,7 @@ const Cart = () => {
                                     }
                                     <div className='d-flex justify-content-between'>
                                         <span style={{textTransform: "uppercase"}}>Tổng cộng</span>
-                                        <b>{(totalCart > 100000 ? totalCart - shipping : totalCart).toLocaleString('vi-VN', {
+                                        <b>{(total > 100000 ? total - shipping : total).toLocaleString('vi-VN', {
                                             style: 'currency',
                                             currency: 'VND'
                                         })}</b>

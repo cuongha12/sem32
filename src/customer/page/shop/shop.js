@@ -293,7 +293,7 @@ function Shop() {
                 </div>
                 <Row gutter={[16, 16]}>
                     {
-                        product?.map((e)=>(
+                        product?.filter((e)=>e.status).map((e)=>(
                             <Col key={e.productID} xxl={4} xl={6} sm={8} span={12}  onClick={() => navigate(`/detail/${e.productID}`)}>
                                 <div className={clsx(style.item)}>
                                     <div className={clsx(style.image)}>

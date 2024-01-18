@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
-import { Card, Descriptions, Divider, Modal, Typography } from "antd";
+import { Card, Descriptions, Divider, Modal, Typography, Row, Col } from "antd";
 import Meta from "antd/es/card/Meta";
 
-const ModalOrder = ({ open, model, onClose, orderItem }) => {
+const ModalOrder = ({ open, model, onClose }) => {
     const { Text } = Typography;
     const total = model?.orderItems?.reduce((a, b) => a + (b.quantity * b.product.price), 0) || 0;
     useEffect(() => {
-        if (!orderItem && !model) {
+        if (!model) {
             onClose()
         }
     }, [model])
+    console.log(model);
     return (
-        <Modal width={1000} title="Thông tin hóa đơn" okButtonProps={{
+        <Modal width={800} title="Thông tin hóa đơn" okButtonProps={{
             hidden: true
         }}
             cancelButtonProps={{
@@ -33,29 +34,33 @@ const ModalOrder = ({ open, model, onClose, orderItem }) => {
                     </Descriptions.Item>
                 </Descriptions>
             </div>
-            {
-                orderItem?.map((e) => (
-                    <Card
-                        key={e.id}
-                        style={{
-                            width: 240,
-                        }}
-                        cover={<img alt="example" src={`/api/ImageControllers/${e.product.image}`} />}
-                    >
-                        <Meta title={e.product.productName} description={`${e.quantity} x ${e.product.price.toLocaleString('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND'
-                        })}`} />
-                    </Card>
-                ))
-            }
+            <Row gutter={[16, 32]}>
+                {
+                    model?.orderItems?.map((e) => (
+                        <Col key={e.id} span={12}>
+                            <Card
+
+                                style={{
+                                    width: 240,
+                                }}
+                                cover={<img alt="example" src={`/api/ImageControllers/${e.product.image}`} />}
+                            >
+                                <Meta title={e.product.productName} description={`${e.quantity} x ${e.product.price.toLocaleString('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                })}`} />
+                            </Card>
+                        </Col>
+                    ))
+                }
+            </Row>
             <div style={{
                 marginTop: 50,
                 marginBottom: 50,
             }}>
                 <Descriptions title="Tổng hóa đơn" size={'default'}>
-                    <Descriptions.Item label={<b>Tên người nhận hàng</b>}>
-                        <Text strong>{total.toLocaleString('vi-VN', {
+                    <Descriptions.Item label={<b>Thành tiền</b>}>
+                        <Text strong>{(total > 100000 ? total -50000 : total).toLocaleString('vi-VN', {
                             style: 'currency',
                             currency: 'VND'
                         })}</Text>
