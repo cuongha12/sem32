@@ -65,19 +65,19 @@ const ProductForm = ({ open, onClose, mode, model }) => {
                     Close()
                 })
             } else {
-                console.log(fileList);
-                // formData.append('ProductName', value.productName)
-                // formData.append('CategoryID', value.categoryID)
-                // formData.append('Description', value.description)
-                // formData.append('Price', value.price)
-                // formData.append('Quantity', value.quantity)
-                // formData.append('Status', value.status)
-                // formData.append('ImageFile', fileList[0].originFileObj ? fileList[0].originFileObj : fileList[0])
-                // await axios.put("/api/Products/" + model.productID, formData).then(() => {
-                //     loadProduct()
-                //     message.success("Cập nhật dữ liệu thành công")
-                //     Close()
-                // })
+
+                formData.append('ProductName', value.productName)
+                formData.append('CategoryID', value.categoryID)
+                formData.append('Description', value.description)
+                formData.append('Price', value.price)
+                formData.append('Quantity', value.quantity)
+                formData.append('Status', value.status)
+                formData.append('ImageFile', fileList[0].originFileObj ? fileList[0].originFileObj : fileList[0])
+                await axios.put("/api/Products/" + model.productID, formData).then(() => {
+                    loadProduct()
+                    message.success("Cập nhật dữ liệu thành công")
+                    Close()
+                })
             }
         } catch (error) {
             message.error('Cập nhật dữ liệu thất bại')
