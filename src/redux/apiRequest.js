@@ -8,7 +8,7 @@ export const loginUser = async (value, dispatch, message, navigate) => {
         const res = await axios.post("/api/AccountControllers/login", value)
         if (!res.data.userData.status) {
             dispatch(loginUserFailed())
-            message.success('Tài khoản bạn đã bị khoá')
+            message.error('Tài khoản bạn đã bị khoá')
         } else {
             dispatch(loginUserSuccess(res.data))
             message.success('Đăng nhập thành công')
@@ -36,7 +36,7 @@ export const loginAdmin = async (value, dispatch, message, navigate) => {
         const res = await axios.post("/api/AccountControllers/login", value)
         if (!res.data.userData.status) {
             dispatch(loginFailed())
-            message.success('Tài khoản bạn đã bị khoá')
+            message.error('Tài khoản bạn đã bị khoá')
         } else {
             if (res.data.userData.roleName === "user") {
                 dispatch(loginFailed())

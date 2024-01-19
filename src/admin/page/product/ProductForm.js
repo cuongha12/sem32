@@ -71,7 +71,7 @@ const ProductForm = ({ open, onClose, mode, model }) => {
                 formData.append('Description', value.description)
                 formData.append('Price', value.price)
                 formData.append('Quantity', value.quantity)
-                formData.append('Status', value.status)
+                formData.append('Status', value.status ? value.status : false)
                 formData.append('ImageFile', fileList[0].originFileObj ? fileList[0].originFileObj : fileList[0])
                 await axios.put("/api/Products/" + model.productID, formData).then(() => {
                     loadProduct()

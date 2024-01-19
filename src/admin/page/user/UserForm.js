@@ -12,13 +12,13 @@ const UserForm = ({ open, onClose, mode, model }) => {
     const onFinish = useCallback(async (value) => {
         try {
             if (mode === 'add') {
-                await axios.post("/register", value).then(() => {
+                await axios.post("/register", {...value,status:value.status ? value.status : false }).then(() => {
                     loadAccount()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()
                 })
             } else {
-                await axios.put("/api/AccountControllers/" + model.accountID, value).then(() => {
+                await axios.put("/api/AccountControllers/" + model.accountID, {...value,status:value.status ? value.status : false }).then(() => {
                     loadAccount()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()

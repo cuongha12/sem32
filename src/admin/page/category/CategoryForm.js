@@ -13,13 +13,13 @@ const CategoryForm = ({ open, onClose, mode, model }) => {
     const onFinish = useCallback(async (value) => {
         try {
             if (mode === 'add') {
-                await axios.post("/api/Categories", value).then(() => {
+                await axios.post("/api/Categories", {...value,status:value.status ? value.status : false }).then(() => {
                     loadCategory()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()
                 })
             } else {
-                await axios.put("/api/Categories/" + model.categoryID, value).then(() => {
+                await axios.put("/api/Categories/" + model.categoryID, {...value,status:value.status ? value.status : false }).then(() => {
                     loadCategory()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()
