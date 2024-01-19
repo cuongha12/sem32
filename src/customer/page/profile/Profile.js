@@ -64,7 +64,7 @@ const Profile = () => {
                     </Descriptions.Item>
                 </Descriptions>
                 {
-                    open && <FormProfile model={model} onClose={onClose} open={open}/>
+                    open && <FormProfile model={model} getUser={getUser} onClose={onClose} open={open}/>
                 }
             </Card>
         </div>

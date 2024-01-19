@@ -8,11 +8,25 @@ import ModalOrder from "../../../admin/page/order/ModalOrder";
 
 
 const Order = () => {
-    const { order, loadOrder ,token} = useContext(AppContext)
+    const {token} = useContext(AppContext)
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState('')
     const [model, setModel] = useState(undefined)
     const [loading, setLoading] = useState(true)
+    const [order, setOrder] = useState([])
+    const loadOrder = useCallback(async () => {
+        try {
+            await axios.get('/api/Orders/ByAccount',{
+                headers:{
+                    Authorization: "Bearer " + token
+                }
+            }).then((e) => {
+                setOrder(e.data)
+            })
+        } catch (error) {
+            message.error("Lỗi hệ thống")
+        }
+    },[token])
     const showDrawer = () => {
         setOpen(true);
         setMode('add')
@@ -44,7 +58,7 @@ const Order = () => {
         } catch (error) {
             message.error("Lỗi hệ thống")
         }
-    }, [loadOrder])
+    }, [])
 
     const updateOrder = async (id) =>{
         try {
@@ -89,12 +103,14 @@ const Order = () => {
             )
         },
     ];
+   
+
     useEffect(() => {
         loadOrder()
         return () => {
             setLoading(false)
         }
-    }, [loadOrder])
+    }, [])
     return (
         <Spin spinning={loading}>
             <Card style={{ padding: 50 }} bordered

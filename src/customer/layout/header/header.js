@@ -117,137 +117,17 @@ function Header() {
                             <div className={clsx(style.item)}>
                                 <Link to="/shop">Shop</Link>
                             </div>
-                            <div className={clsx(style.item)}>
-                                <Link to="/shop" >Category <i className="fa-solid fa-angle-down"></i></Link>
-                                <div className={clsx(style.drop_menu)}>
-                                    <Row style={{ maxWidth: '1440px', margin: "0 auto" }}>
-                                        <Col span={7}>
-                                            <div className={clsx(style.left)}>
-                                                <h5 className={clsx(style.title)}>All Categories</h5>
-                                                <p className={clsx(style.item_cate)}>Children</p>
-                                                <p className={clsx(style.item_cate)}>Children</p>
-                                                <p className={clsx(style.item_cate)}>Children</p>
-                                                <p className={clsx(style.item_cate)}>Children</p>
-                                                <p className={clsx(style.item_cate)}>Children</p>
-                                                <p className={clsx(style.item_cate)}>Children</p>
-                                                <Link to="/shop" className={clsx(style.btn_shop)}><span>All Products <i className="fa-solid fa-chevron-right"></i></span> </Link>
-
-                                            </div>
-                                        </Col>
-                                        <Col span={17}>
-                                            <Row gutter={[15, 15]}>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-                                                <Col md={6} lg={4} xl={4}>
-                                                    <div className={clsx(style.card)}>
-                                                        <div className={clsx(style.image)}>
-                                                            <img src="https://f8g8b9p5.rocketcdn.me/themes/styler/fashion/wp-content/uploads/2021/12/product-name-36-300x300.jpeg" alt="" />
-                                                        </div>
-                                                        <div className={clsx(style.card_title)}>Women</div>
-                                                    </div>
-                                                </Col>
-
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </div>
-
-                            <div className={clsx(style.item)}>About Us</div>
-                            <div className={clsx(style.item)}>Contact</div>
+                           
                         </Row>
                         <div className={clsx(style.header_right)}>
                             <Space>
-                                <div className={clsx(style.header_icon, 'd-sm-flex', 'd-none')}><SearchOutlined /></div>
+                               
                                 <Badge style={{ backgroundColor: '#daa174' }} count={cart?.length > 0 ? cart.length : 0}>
                                     {/* <div onClick={() => showDrawerCart('cart')} className={clsx(style.header_icon)}><ShoppingOutlined /></div> */}
                                     <div onClick={() => navigate('/cart')} className={clsx(style.header_icon)}><ShoppingOutlined /></div>
 
                                 </Badge>
-                                <Badge style={{ backgroundColor: '#daa174' }} count="0">
-                                    <div onClick={() => showDrawerCart('wish')} className={clsx(style.header_icon)}><HeartOutlined /></div>
-                                </Badge>
-                                <Badge style={{ backgroundColor: '#daa174' }} count="0">
-                                    <div onClick={() => showDrawerCart('compare')} className={clsx(style.header_icon)}><SyncOutlined /></div>
-                                </Badge>
+                               
                                 {/* <Badge className={clsx('d-sm-flex', 'd-none')} style={{ backgroundColor: '#daa174' }} count="0">
                                     <div className={clsx(style.header_icon)}><UserOutlined /></div>
                                 </Badge> */}

@@ -5,6 +5,7 @@ import CategoryForm from "../category/CategoryForm";
 import { AppContext } from "../../../Context/AppContext";
 import UserForm from './UserForm';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 const User = () => {
     const { account, loadAccount } = useContext(AppContext)
@@ -113,7 +114,7 @@ const User = () => {
                     </Space.Compact>
                 </Space>
             ]}>
-            <Table rowKey="accountID" dataSource={account} pagination columns={columns} />
+            <Table rowKey="accountID" dataSource={account?.sort((a,b)=>dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())} pagination columns={columns} />
             {
                 open && <UserForm open={open} mode={mode} model={model} onClose={onClose} />
             }

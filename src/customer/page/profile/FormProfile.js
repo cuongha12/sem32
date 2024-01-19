@@ -3,7 +3,7 @@ import { Button, Space, Drawer, Form, Input, Switch, message, Select } from 'ant
 import axios from 'axios';
 import { AppContext } from '../../../Context/AppContext';
 
-const FormProfile = ({ model, onClose, open }) => {
+const FormProfile = ({ model, onClose, open,getUser }) => {
     const [form] = Form.useForm();
     const { loadAccount } = useContext(AppContext)
     const Close = useCallback(() => {
@@ -13,7 +13,7 @@ const FormProfile = ({ model, onClose, open }) => {
     const onFinish = useCallback(async (value) => {
         try {
             await axios.put("/api/AccountControllers/" + model.accountID, value).then(() => {
-                loadAccount()
+                getUser()
                 message.success("Cập nhật dữ liệu thành công")
                 Close()
             })

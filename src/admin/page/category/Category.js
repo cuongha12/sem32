@@ -4,6 +4,7 @@ import { EyeFilled, EditFilled, DeleteFilled, PlusCircleFilled, LockFilled } fro
 import { AppContext } from '../../../Context/AppContext';
 import CategoryForm from './CategoryForm';
 import axios from 'axios'
+import dayjs from 'dayjs';
 const Category = () => {
     const { category, loadCategory } = useContext(AppContext)
     const [open, setOpen] = useState(false);
@@ -91,7 +92,7 @@ const Category = () => {
                     </Space.Compact>
                 </Space>
             ]}>
-            <Table rowKey="categoryID" dataSource={category} pagination columns={columns} />
+            <Table rowKey="categoryID" dataSource={category?.sort((a,b)=>dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())} pagination columns={columns} />
             {
                 open && <CategoryForm open={open} mode={mode} model={model} onClose={onClose} />
             }

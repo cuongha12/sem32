@@ -109,7 +109,7 @@ const Order = () => {
         <Spin spinning={loading}>
             <Card style={{ padding: 0 }} bordered
                 title="Dữ liệu đơn hàng">
-                <Table rowKey="orderID" dataSource={order} pagination columns={columns} />
+                <Table rowKey="orderID" dataSource={order?.sort((a,b)=>dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())} pagination columns={columns} />
                 {
                     open && <ModalOrder open={open} model={model} onClose={onClose}/>
                 }

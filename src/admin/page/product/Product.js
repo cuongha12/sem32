@@ -5,6 +5,7 @@ import { EyeFilled, EditFilled, DeleteFilled, PlusCircleFilled, LockFilled } fro
 import { AppContext } from '../../../Context/AppContext';
 import axios from 'axios';
 import ProductForm from './ProductForm';
+import dayjs from 'dayjs';
 const Product = () => {
     const { product, loadProduct } = useContext(AppContext)
     const [open, setOpen] = useState(false);
@@ -124,7 +125,7 @@ const Product = () => {
                         </Space.Compact>
                     </Space>
                 ]}>
-                <Table rowKey="productID" dataSource={product} pagination columns={columns} />
+                <Table rowKey="productID" dataSource={product?.sort((a,b)=>dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf())} pagination columns={columns} />
                 {
                     open && <ProductForm open={open} mode={mode} model={model} onClose={onClose} />
                 }
