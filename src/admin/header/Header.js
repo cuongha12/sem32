@@ -59,24 +59,6 @@ const HeaderAdmin = () => {
             path: '/admin/account'
         },
         {
-            id: 2,
-            name: 'Tài khoản',
-            icon: UserOutlined,
-            path: '/admin/user',
-            children: [
-                {
-                    id: 3,
-                    name: 'Hồ sơ',
-                    path: '/admin/profile'
-                },
-                {
-                    id: 4,
-                    name: 'Đổi mật khẩu',
-                    path: '/admin/change-password'
-                }
-            ]
-        },
-        {
             id: 5,
             name: 'Danh mục',
             icon: LaptopOutlined,
