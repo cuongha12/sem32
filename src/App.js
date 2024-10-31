@@ -1,7 +1,7 @@
 
 import './App.css';
 import 'antd/dist/reset.css';
-import {  Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Suspense, lazy, useLayoutEffect } from 'react';
 import { AppProvider } from './Context/AppContext.js';
 import { Spin } from 'antd';
@@ -25,8 +25,8 @@ const Cart = lazy(() => import("./customer/page/cart/Cart.js"))
 const Order = lazy(() => import("./admin/page/order/Order.js"))
 const Success = lazy(() => import("./customer/page/result/Success.js"))
 const Profile = lazy(() => import("./customer/page/profile/Profile.js"))
-const OrderUser = lazy(()=>import("./customer/page/order/Order"))
-
+const OrderUser = lazy(() => import("./customer/page/order/Order"))
+const Chart = lazy(() => import("./admin/page/chart/Chart.js"))
 function App() {
   const location = useLocation();
   useLayoutEffect(() => {
@@ -38,7 +38,7 @@ function App() {
         <div className="content" />
       </Spin>}>
         <Routes>
-          <Route path='' element={<Main />}>
+          {/* <Route path='' element={<Main />}>
             <Route index element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/detail/:id" element={<Detail />} />
@@ -47,13 +47,13 @@ function App() {
             <Route path="/result" element={<Success/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/order" element={<OrderUser/>}/>
-          </Route>
-          <Route path='/admin/' element={<HeaderAdmin />}>
+          </Route> */}
+          <Route path='/' element={<HeaderAdmin />}>
             <Route path='category' element={<Category />} />
             <Route path='account' element={<Account />} />
             <Route path='product' element={<Product />} />
-            <Route path='order' element={<Order/>}/>
-
+            <Route path='order' element={<Order />} />
+            <Route path='chart' element={<Chart />} />
           </Route>
           <Route path={'/register'} element={<Register />}></Route>
           <Route path='login' element={<Login />} />

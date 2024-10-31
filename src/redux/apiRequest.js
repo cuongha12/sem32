@@ -45,7 +45,7 @@ export const loginAdmin = async (value, dispatch, message, navigate) => {
             } else {
                 dispatch(loginSuccess(res.data))
                 message.success('Đăng nhập thành công')
-                navigate("/admin")
+                navigate("/")
             }
         }
     } catch (error) {

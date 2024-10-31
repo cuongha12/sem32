@@ -3,7 +3,8 @@ import {
     UsergroupDeleteOutlined,
     UserOutlined,
     ShoppingOutlined,
-    UsergroupAddOutlined, SolutionOutlined
+    UsergroupAddOutlined, SolutionOutlined,
+    LineChartOutlined
 } from '@ant-design/icons';
 import { Avatar, Dropdown, Layout, Menu, Space, theme, Spin } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
@@ -56,25 +57,32 @@ const HeaderAdmin = () => {
             id: 1,
             name: 'Thành viên',
             icon: UsergroupAddOutlined,
-            path: '/admin/account'
+            path: '/account'
         },
         {
             id: 5,
             name: 'Danh mục',
             icon: LaptopOutlined,
-            path: '/admin/category'
+            path: '/category'
         },
         {
             id: 10,
             name: 'Sản phẩm',
             icon: ShoppingOutlined,
-            path: '/admin/product'
+            path: '/product'
         },
         {
             id: 11,
             name: 'Hóa đơn',
             icon: SolutionOutlined,
-            path: '/admin/order',
+            path: '/order',
+            status: true
+        },
+        {
+            id: 12,
+            name: 'Thống kê',
+            icon: LineChartOutlined,
+            path: '/chart',
             status: true
         }
     ].filter((a) => user?.roleName === "employee" ? a.status : a).map((e) => {
@@ -127,7 +135,7 @@ const HeaderAdmin = () => {
     return (
         <Spin spinning={loading}>
             <Layout>
-                <Header className="header">
+                <Header className="header" >
                     <Space direction="vertical">
                         <Space wrap>
                             <Dropdown
@@ -156,18 +164,18 @@ const HeaderAdmin = () => {
                         style={{
 
                             height: '1600px',
-                            background: colorBgContainer,
+                            // background: colorBgContainer,
                         }}
                     >
                         <Sider
                             style={{
-                                background: colorBgContainer,
+                                // background: colorBgContainer,
                             }}
                             width={200}
                         >
                             <Menu
                                 mode="inline"
-                                theme="dark"
+                                theme="light"
                                 defaultSelectedKeys={check}
                                 defaultOpenKeys={check}
                                 style={{

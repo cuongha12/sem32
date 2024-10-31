@@ -10,6 +10,7 @@
     background-attachment: fixed;
     background-size: cover;
     align-items: center;
+
 }
 
 .mainLoginUser {
@@ -19,6 +20,8 @@
     margin: 0 auto;
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 1px 2px 6px 1px #00000025;
+    backdrop-filter: 5px;
 }
 
 .titleLoginUser {
@@ -32,7 +35,8 @@
 .submitLoginLoginUser {
     width: 100%;
 }
-.loginTitle{
+
+.loginTitle {
     color: #000;
     display: flex;
     justify-content: space-between;

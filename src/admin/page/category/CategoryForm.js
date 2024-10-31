@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react'
-import { Button, Space, Drawer, Form, Input, Switch, message } from 'antd';
+import { Button, Space, Drawer, Form, Input, Switch, message, Row, Col } from 'antd';
 import axios from 'axios';
 import { AppContext } from '../../../Context/AppContext';
 const CategoryForm = ({ open, onClose, mode, model }) => {
@@ -13,13 +13,13 @@ const CategoryForm = ({ open, onClose, mode, model }) => {
     const onFinish = useCallback(async (value) => {
         try {
             if (mode === 'add') {
-                await axios.post("/api/Categories", {...value,status:value.status ? value.status : false }).then(() => {
+                await axios.post("/api/Categories", { ...value, status: value.status ? value.status : false }).then(() => {
                     loadCategory()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()
                 })
             } else {
-                await axios.put("/api/Categories/" + model.categoryID, {...value,status:value.status ? value.status : false }).then(() => {
+                await axios.put("/api/Categories/" + model.categoryID, { ...value, status: value.status ? value.status : false }).then(() => {
                     loadCategory()
                     message.success("Cập nhật dữ liệu thành công")
                     Close()
@@ -39,7 +39,8 @@ const CategoryForm = ({ open, onClose, mode, model }) => {
         }
     }, [model, form])
     return (
-        <Drawer title="Cập nhật dữ liệu danh mục" width={'100%'} placement="right" onClose={Close} open={open}>
+        <Drawer title="Cập nhật dữ liệu danh mục" width={'50%'} placement="right" onClose={Close} open={open}>
+
             <Form name="category-form"
                 form={form}
                 autoComplete="off"
@@ -47,35 +48,45 @@ const CategoryForm = ({ open, onClose, mode, model }) => {
                 labelAlign="left"
                 onFinish={onFinish}
             >
-                <Form.Item
-                    style={{ width: '20%' }}
-                    label="Tên danh mục"
-                    name="categoryName"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Tên danh mục không để trống',
-                        },
-                    ]}
-                >
-                    <Input  allowClear placeholder="Tên danh mục" />
-                </Form.Item>
-                <Form.Item
-                    style={{ width: '20%' }}
-                    label="Mô tả"
-                    name="description"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Mô tả không để trống',
-                        },
-                    ]}
-                >
-                    <Input  allowClear placeholder="Mô tả" />
-                </Form.Item>
-                <Form.Item valuePropName="checked" name="status" label={"Trạng thái"}>
-                    <Switch />
-                </Form.Item>
+                <Row gutter={[16, 16]}>
+                    <Col span={12} >
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Tên danh mục"
+                            name="categoryName"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Tên danh mục không để trống',
+                                },
+                            ]}
+                        >
+                            <Input allowClear placeholder="Tên danh mục" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12} >
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Mô tả"
+                            name="description"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Mô tả không để trống',
+                                },
+                            ]}
+                        >
+                            <Input allowClear placeholder="Mô tả" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={12} >
+                        <Form.Item valuePropName="checked" name="status" label={"Trạng thái"}>
+                            <Switch />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
+
                 <Form.Item>
                     <Space>
                         <Button

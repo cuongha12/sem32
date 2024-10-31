@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Button, Space, Drawer, Form, Input, Switch, message, InputNumber, Select, Upload, Modal } from 'antd';
+import { Button, Space, Drawer, Form, Input, Switch, message, InputNumber, Select, Upload, Modal, Row, Col } from 'antd';
 import axios from 'axios';
 import { PlusOutlined } from '@ant-design/icons';
 import { AppContext } from '../../../Context/AppContext';
@@ -130,111 +130,128 @@ const ProductForm = ({ open, onClose, mode, model }) => {
                 labelAlign="left"
                 onFinish={onFinish}
             >
-                <Form.Item
-                    style={{ width: '20%' }}
-                    label="Tên sản phẩm"
-                    name="productName"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Tên sản phẩm không để trống',
-                        },
-                    ]}
-                >
-                    <Input allowClear placeholder="Tên sản phẩm" />
-                </Form.Item>
-                <Form.Item rules={[
-                    {
-                        required: true,
-                        message: 'Ảnh không để trống',
-                    },
-                ]} label="Ảnh" valuePropName="fileList" getValueFromEvent={normFile}>
-                    <Upload
-                        listType="picture-card"
-                        fileList={fileList}
-                        onPreview={handlePreview}
-                        onChange={handleChange}
-                        beforeUpload={() => {
-                            return false
-                        }}
+                <Row gutter={[16, 16]}>
+                    <Col span={6}>
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Tên sản phẩm"
+                            name="productName"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Tên sản phẩm không để trống',
+                                },
+                            ]}
+                        >
+                            <Input allowClear placeholder="Tên sản phẩm" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Giá sản phẩm"
+                            name="price"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Giá sản phẩm không để trống',
+                                },
+                            ]}
+                        >
+                            <InputNumber style={{ width: '100%' }} allowClear placeholder="Giá sản phẩm" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Số lượng sản phẩm"
+                            name="quantity"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Số lượng sản phẩm không để trống',
+                                },
+                            ]}
+                        >
+                            <InputNumber style={{ width: '100%' }} allowClear placeholder="Số lượng sản phẩm" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Danh mục sản phẩm"
+                            name="categoryID"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Danh mục sản phẩm không để trống',
+                                },
+                            ]}
+                        >
+                            <Select
+                                allowClear
+                                placeholder="Danh mục sản phẩm"
+                                optionFilterProp="children"
+                                options={category?.filter((e) => e.status)}
+                                fieldNames={{
+                                    label: 'categoryName',
+                                    value: 'categoryID'
+                                }}
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item rules={[
+                            {
+                                required: true,
+                                message: 'Ảnh không để trống',
+                            },
+                        ]} label="Ảnh" valuePropName="fileList" getValueFromEvent={normFile}>
+                            <Upload
+                                listType="picture-card"
+                                fileList={fileList}
+                                onPreview={handlePreview}
+                                onChange={handleChange}
+                                beforeUpload={() => {
+                                    return false
+                                }}
 
-                    >
-                        {fileList.length === 1 ? null : uploadButton}
-                    </Upload>
-                    <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                        <img
-                            alt="example"
-                            style={{
-                                width: '100%',
-                            }}
-                            src={previewImage}
-                        />
-                    </Modal>
-                </Form.Item>
-                <Form.Item
-                    style={{ width: '50%' }}
-                    label="Giá sản phẩm"
-                    name="price"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Giá sản phẩm không để trống',
-                        },
-                    ]}
-                >
-                    <InputNumber allowClear placeholder="Giá sản phẩm" />
-                </Form.Item>
-                <Form.Item
-                    style={{ width: '50%' }}
-                    label="Số lượng sản phẩm"
-                    name="quantity"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Số lượng sản phẩm không để trống',
-                        },
-                    ]}
-                >
-                    <InputNumber allowClear placeholder="Số lượng sản phẩm" />
-                </Form.Item>
-                <Form.Item
-                    style={{ width: '20%' }}
-                    label="Danh mục sản phẩm"
-                    name="categoryID"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Danh mục sản phẩm không để trống',
-                        },
-                    ]}
-                >
-                    <Select
-                        allowClear
-                        placeholder="Danh mục sản phẩm"
-                        optionFilterProp="children"
-                        options={category?.filter((e)=>e.status)}
-                        fieldNames={{
-                            label: 'categoryName',
-                            value: 'categoryID'
-                        }}
-                    />
-                </Form.Item>
-                <Form.Item
-                    style={{ width: '20%' }}
-                    label="Mô tả"
-                    name="description"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Mô tả không để trống',
-                        },
-                    ]}
-                >
-                    <Input allowClear placeholder="Mô tả" />
-                </Form.Item>
-                <Form.Item valuePropName="checked" name="status" label={"Trạng thái"}>
-                    <Switch />
-                </Form.Item>
+                            >
+                                {fileList.length === 1 ? null : uploadButton}
+                            </Upload>
+                            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                                <img
+                                    alt="example"
+                                    style={{
+                                        width: '100%',
+                                    }}
+                                    src={previewImage}
+                                />
+                            </Modal>
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item
+                            style={{ width: '100%' }}
+                            label="Mô tả"
+                            name="description"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Mô tả không để trống',
+                                },
+                            ]}
+                        >
+                            <Input allowClear placeholder="Mô tả" />
+                        </Form.Item>
+                    </Col>
+                    <Col span={6}>
+                        <Form.Item valuePropName="checked" name="status" label={"Trạng thái"}>
+                            <Switch />
+                        </Form.Item>
+                    </Col>
+                </Row>
+
                 <Form.Item>
                     <Space>
                         <Button
